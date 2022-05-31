@@ -56,6 +56,39 @@ export const constantRoutes = [
       }
     ]
   },
+  // 商品管理相关的路由
+  {
+    path: '/product',
+    component: Layout, // 首先展示一级路由
+    name: 'Product',
+    meta: { title: '商品管理', icon: 'el-icon-s-shop' },
+    children: [
+      {
+        path: 'trademark',
+        component: () => import('@/views/product/trademark/List'),
+        name: 'Trademark',
+        meta: { title: '品牌管理' }
+      },
+      {
+        path: 'attr',
+        component: () => import('@/views/product/attr/List'),
+        name: 'Attr',
+        meta: { title: '属性管理' }
+      },
+      {
+        path: 'sku',
+        component: () => import('@/views/product/sku/List'),
+        name: 'Sku',
+        meta: { title: 'sku管理' }
+      },
+      {
+        path: 'spu',
+        component: () => import('@/views/product/spu/List'),
+        name: 'Spu',
+        meta: { title: 'spu管理' }
+      }
+    ]
+  },
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]
