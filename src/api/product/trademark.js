@@ -1,7 +1,7 @@
 import request from '@/utils/request'
 export default {
   /** 根据id删除某个品牌 DELETE /admin/product/baseTrademark/remove/{id}  */
-  delete(id) {
+  deleteTrademark(id) {
     return request.delete(`/admin/product/baseTrademark/remove/${id}`)
   },
   addOrUpdate(trademark) {
