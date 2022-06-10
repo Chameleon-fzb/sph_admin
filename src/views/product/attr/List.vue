@@ -1,5 +1,10 @@
 <template>
-  <div>AttrList</div>
+  <div>
+    <el-card>
+      <CategorySelector />
+    </el-card>
+    <el-card style="margin-top:20px" />
+  </div>
 </template>
 <script>
 export default {

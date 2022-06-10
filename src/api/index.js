@@ -1,4 +1,5 @@
 export { default as trademark } from './product/trademark'
+export { default as attr } from './product/attr'
 // 引入并且暴露
 /**
  * 第一步:引入
