@@ -9,7 +9,7 @@ export default {
   },
   // 删除属性
   deleteAttr(attrId) {
-    return request.delete(`admin/product/deleteAttr/${attrId}`)
+    return request.delete(`/admin/product/deleteAttr/${attrId}`)
   },
   // 添加或修改属性
   /*

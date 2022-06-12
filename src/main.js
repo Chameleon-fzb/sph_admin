@@ -17,8 +17,11 @@ import '@/permission' // permission control
 
 import * as $API from '@/api'
 import CategorySelector from '@/components/CategorySelector'
+import HintBtn from '@/components/HintBtn'
 
 Vue.component('CategorySelector', CategorySelector)
+Vue.component('HintBtn', HintBtn)
+
 /**
  * If you don't want to use mock-server
  * you want to use MockJs for mock api

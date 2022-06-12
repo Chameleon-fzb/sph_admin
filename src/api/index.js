@@ -1,5 +1,6 @@
 export { default as trademark } from './product/trademark'
 export { default as attr } from './product/attr'
+export { default as category } from './product/category'
 // 引入并且暴露
 /**
  * 第一步:引入
