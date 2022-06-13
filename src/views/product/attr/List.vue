@@ -143,6 +143,7 @@
         </el-table>
         <el-button
           type="primary"
+          :disabled="attrForm.attrValueList.length === 0"
           @click="saveAttr"
         >保存</el-button>
         <el-button @click="isShowList=true">取消</el-button>
