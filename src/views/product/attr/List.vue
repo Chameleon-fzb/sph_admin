@@ -115,18 +115,21 @@
               </span>
             </template>
           </el-table-column>
-          <el-table-column
-            prop=""
-            label="操作"
-          >
-            <template slot-scope="{$index}">
-              <HintBtn
-                type="danger"
-                icon="el-icon-delete"
-                title="删除"
-                size="mini"
-                @click="deleteAttrValue($index)"
-              />
+          <el-table-column label="操作">
+            <template slot-scope="{row,$index}">
+              <el-popconfirm
+                :title="`你确定要删除${row.valueName}吗？`"
+                @onConfirm="deleteAttrValue($index)"
+              >
+                <HintBtn
+                  slot="reference"
+                  type="danger"
+                  icon="el-icon-delete"
+                  title="删除"
+                  size="mini"
+                />
+              </el-popconfirm>
+
             </template>
           </el-table-column>
         </el-table>
