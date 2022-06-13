@@ -46,12 +46,21 @@
                 title="修改"
                 @click="showUpdDiv(row)"
               />
-              <HintBtn
-                type="danger"
-                icon="el-icon-delete"
-                size="mini"
-                title="删除"
-              />
+
+              <el-popconfirm
+                icon="el-icon-info"
+                icon-color="red"
+                :title="`确认删除${row.attrName}吗`"
+                @onConfirm="deleteAttr(row)"
+              >
+                <HintBtn
+                  slot="reference"
+                  type="danger"
+                  icon="el-icon-delete"
+                  size="mini"
+                  title="删除"
+                />
+              </el-popconfirm>
             </template>
           </el-table-column>
         </el-table>
@@ -129,13 +138,12 @@
                   size="mini"
                 />
               </el-popconfirm>
-
             </template>
           </el-table-column>
         </el-table>
         <el-button
           type="primary"
-          @click="saveAttrValue"
+          @click="saveAttr"
         >保存</el-button>
         <el-button @click="isShowList=true">取消</el-button>
       </div>
@@ -168,7 +176,7 @@ export default {
     }
   },
   methods: {
-    // 根据子组件 CategorySelect 传入的分类id做出相应的操作
+    /** 根据子组件 CategorySelect 传入的分类id做出相应的操作*/
     changeCategory ({ category1Id, category2Id, category3Id }) {
       if (category3Id) {
         this.category.category3Id = category3Id
@@ -190,7 +198,7 @@ export default {
         this.attrList = []
       }
     },
-    /* 获取属性列表  */
+    /** 获取属性列表  */
     async getAttrList () {
       const { category1Id, category2Id, category3Id } = this.category
       const result = await this.$API.attr.getList(category1Id, category2Id, category3Id)
@@ -200,7 +208,7 @@ export default {
       }
       console.log('获取列表出错')
     },
-    /* 展示添加属性div */
+    /** 展示添加属性div */
     showAddDiv () {
       this.isShowList = false
       // 清空上一次的数据
@@ -211,7 +219,7 @@ export default {
         categoryLevel: 3
       }
     },
-    /* 添加属性值 */
+    /** 添加属性值 */
     async addAttrValue () {
       // 给表格添加一行，添加空对象
       this.attrForm.attrValueList.push({
@@ -223,11 +231,11 @@ export default {
         this.$refs[this.attrForm.attrValueList.length - 1].focus()
       })
     },
-    // 删除属性
+    /** 删除属性值 */
     deleteAttrValue (i) {
       this.attrForm.attrValueList.splice(i, 1)
     },
-    // 修改属性
+    /** 修改属性界面 */
     showUpdDiv (attr) {
       this.isShowList = false
       const attrForm = cloneDeep(attr)// 深拷贝
@@ -239,12 +247,14 @@ export default {
       // 展示该项的值
       this.attrForm = attrForm
     },
+    /** 去编辑模式*/
     toEdit (row, i) {
       row.isEdit = true
       this.$nextTick(() => {
         this.$refs[i].focus()
       })
     },
+    /** 去查看模式*/
     toLook (row) {
       const valueName = row.valueName
       // y用户输入的数据不能为空 空格或重复
@@ -266,8 +276,46 @@ export default {
       }
       row.isEdit = false
     },
-    saveAttrValue () { }
+    /** 保存属性*/
+    async saveAttr () {
+      // 获取收集的参数
+      const attr = this.attrForm
 
+      // 整理参数
+      // 1 如果属性中的属性有空串得去除
+      attr.attrValueList = attr.attrValueList.filter(item => {
+        if (item.valueName !== '') {
+          // 2 请求要把不需要的属性值对象当中的属性数据去掉
+          delete item.isEdit
+          return true
+        }
+      })
+      // 3 当数据为空时不发请求
+      if (attr.attrValueList.length === 0) {
+        this.$message.error('属性必须有属性值')
+        return
+      }
+      // 发请求
+      try { // 成功
+        await this.$API.attr.addOrUpdAttr(attr)
+        this.$message.success('保存成功')
+        // 返回列表
+        this.isShowList = true
+        this.getAttrList()
+      } catch (error) { // 失败
+        this.$message.error('保存失败')
+      }
+    },
+    /** 删除属性 */
+    async deleteAttr (row) {
+      try {
+        await this.$API.attr.deleteAttr(row.id)
+        this.getAttrList()
+        this.$message.success('删除成功')
+      } catch (error) {
+        this.$message.error('删除失败')
+      }
+    }
   }
 }
 </script>
