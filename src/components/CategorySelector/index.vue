@@ -4,6 +4,7 @@
       :inline="true"
       :model="cFrom"
       class="demo-form-inline"
+      :disabled="!isShowList"
     >
       <el-form-item label="一级分类">
         <el-select
@@ -55,6 +56,12 @@
 <script>
 export default {
   name: 'CategorySelector',
+  props: {
+    isShowList: {
+      type: Boolean,
+      require: true
+    }
+  },
   data () {
     return {
       cFrom: {

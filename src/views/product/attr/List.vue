@@ -1,7 +1,10 @@
 <template>
   <div>
     <el-card>
-      <CategorySelector @changeCategory="changeCategory" />
+      <CategorySelector
+        :is-show-list="isShowList"
+        @changeCategory="changeCategory"
+      />
     </el-card>
     <el-card style="margin-top:20px">
       <div v-show="isShowList">
