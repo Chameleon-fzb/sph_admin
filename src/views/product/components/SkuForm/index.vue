@@ -1,8 +1,8 @@
 <template>
-  <div>SpuFrom</div>
+  <div>SkuForm</div>
 </template>
 <script>
 export default {
-  name: 'SpuFrom'
+  name: 'SkuForm'
 }
 </script>

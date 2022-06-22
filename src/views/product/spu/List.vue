@@ -7,12 +7,12 @@
       />
     </el-card>
     <el-card style="margin-top:20px">
-      <div v-show="!isShowSkuFrom&&!isShowSpuFrom">
+      <div v-show="!isShowSkuForm&&!isShowSpuForm">
         <el-button
           type="primary"
           icon="el-icon-plus"
           :disabled="!category.category3Id"
-          @click="toShowSpuFrom"
+          @click="toShowSpuForm"
         >添加SPU</el-button>
         <el-table
           :data="spuList"
@@ -46,14 +46,14 @@
                 icon="el-icon-plus"
                 title="添加SKU"
                 size="mini"
-                @click="toShowSkuFrom(row)"
+                @click="toShowSkuForm(row)"
               />
               <hintBtn
                 type="warning"
                 icon="el-icon-edit"
                 title="修改SPU"
                 size="mini"
-                @click="toShowSpuFrom(row)"
+                @click="toShowSpuForm(row)"
               />
               <hintBtn
                 type="info"
@@ -83,27 +83,31 @@
           @size-change="handelSizeChange"
         />
       </div>
-      <SpuFrom v-show="isShowSpuFrom" />
-      <SkuFrom v-show="isShowSkuFrom" />
+      <SpuForm
+        v-show="isShowSpuForm"
+        ref="spu"
+        :visible.sync="isShowSpuForm"
+      />
+      <SkuForm v-show="isShowSkuForm" />
     </el-card>
   </div>
 
 </template>
 <script>
-import SpuFrom from '@/views/product/components/SpuFrom'
-import SkuFrom from '@/views/product/components/SkuFrom'
+import SpuForm from '@/views/product/components/SpuForm'
+import SkuForm from '@/views/product/components/SkuForm'
 
 export default {
   name: 'Spu',
   components: {
-    SpuFrom,
-    SkuFrom
+    SpuForm,
+    SkuForm
   },
   data () {
     return {
       isShowList: true,
-      isShowSpuFrom: false,
-      isShowSkuFrom: false,
+      isShowSpuForm: false,
+      isShowSkuForm: false,
       category: {
         category1Id: '',
         category2Id: '',
@@ -164,21 +168,27 @@ export default {
     /**
     * 显示SpuForm 进行添加和修改Spu
     */
-    toShowSpuFrom (row) {
-      this.isShowSpuFrom = true
+    toShowSpuForm (spu) {
+      this.isShowSpuForm = true
+      // 拿到子组件对象,可以使用组件中的数据也可以调用子组件
+      if (spu) {
+        this.$refs.spu.initUpdSpuFormData(spu)
+        return
+      }
+      this.$refs.spu.initAddSpuFormData()
     },
     /**
     * 显示SkuForm 进行添加Sku
     */
-    toShowSkuFrom () {
-      this.isShowSkuFrom = true
+    toShowSkuForm () {
+      this.isShowSkuForm = true
     },
     /**
      * 点击取消
      **/
     toShowList () {
-      this.isShowSpuFrom = false
-      this.isShowSkuFrom = false
+      this.isShowSpuForm = false
+      this.isShowSkuForm = false
     }
   }
 }
