@@ -152,12 +152,10 @@
         size="default"
         @click="cancelAddOrUpd"
       >取消</el-button>
-
     </el-form-item>
   </el-form>
 </template>
 <script>
-// import { spu } from '@/api'
 export default {
   name: 'SpuForm',
   data () {

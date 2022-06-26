@@ -1,13 +1,10 @@
 <template>
-  <el-tooltip
-    :content="title"
-    placement="top"
-  >
+  <a :title="title">
     <el-button
       v-bind="$attrs"
       v-on="$listeners"
     />
-  </el-tooltip>
+  </a>
 </template>
 <script>
 export default {
@@ -20,3 +17,8 @@ export default {
   }
 }
 </script>
+<style scoped>
+a {
+  margin: 0 5px;
+}
+</style>
