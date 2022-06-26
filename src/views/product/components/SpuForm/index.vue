@@ -128,15 +128,19 @@
           width="width"
         >
           <template slot-scope="{row,$index}">
-            <div>
+            <el-popconfirm
+              :title="`是否删除${row.saleAttrName}销售属性`"
+              @onConfirm="deleteSaleAttr($index)"
+            >
               <HintBtn
+                slot="reference"
                 title="删除"
                 type="danger"
                 size="mini"
                 icon="el-icon-delete"
-                @click="deleteSaleAttr(row,$index)"
               />
-            </div>
+            </el-popconfirm>
+
           </template>
         </el-table-column>
       </el-table>
@@ -189,23 +193,9 @@ export default {
     }
   },
   methods: {
-    deleteSaleAttr (spuSaleAttr, index) {
-      const attrName = spuSaleAttr.saleAttrName
-      this.$confirm(`是否删除${attrName}销售属性`, '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning',
-        beforeClose: (action, instance, done) => {
-          if (action === 'confirm') {
-            this.spuForm.spuSaleAttrList.splice(index, 1)
-          }
-          done()
-        }
-      }).then(() => {
-        this.$message.success('删除销售属性成功')
-      }).catch(() => {
-        this.$message.info('取消删除')
-      })
+    // 删除属性
+    deleteSaleAttr (index) {
+      this.spuForm.spuSaleAttrList.splice(index, 1)
     },
     // 删除当前属性值
     handleClose (spuSaleAttrValue, spuSaleAttrValueList, index) {
