@@ -32,10 +32,11 @@
     </el-form-item>
     <el-form-item label="spu图片">
       <el-upload
-        action="https://jsonplaceholder.typicode.com/posts/"
+        action="/dev-api/admin/product/fileUpload"
         list-type="picture-card"
         :on-preview="handlePictureCardPreview"
         :on-remove="handleRemove"
+        :on-success="handleSuccess"
         :file-list="spuImageList"
       >
         <!-- file-list 指示展示的图片数组 [{name:'food.ipg,url:'https://xxx.cdn.com/xxx.jpg'}]-->
@@ -50,20 +51,21 @@
     </el-form-item>
     <el-form-item label="销售属性">
       <el-select
-        v-model="spuSaleAttrId"
+        v-model="spuSaleAttrIdName"
         :placeholder="unUsedSpuSaleAttrList.length>0 ? `还有${unUsedSpuSaleAttrList.length}未选择`: '没有可以选择的销售属性'"
       >
         <el-option
           v-for="unUsedSpuSaleAttr in unUsedSpuSaleAttrList"
           :key="unUsedSpuSaleAttr.id"
           :label="unUsedSpuSaleAttr.name"
-          :value="unUsedSpuSaleAttr .id"
+          :value="`${unUsedSpuSaleAttr.id}:${unUsedSpuSaleAttr.name}`"
         />
       </el-select>
       <el-button
         type="primary"
         size="default"
         icon="el-icon-plus"
+        @click="addSaleAttr"
       >添加销售属性</el-button>
 
       <el-table
@@ -87,21 +89,17 @@
           label="属性名称列表"
           width="width"
         >
-          <template slot-scope="{row,$index}">
+          <template slot-scope="{row}">
             <div>
-              <!--
-                @close="handleClose(tag)" -->
               <el-tag
-                v-for="spuSaleAttrValue in row.spuSaleAttrValueList"
+                v-for="(spuSaleAttrValue,index) in row.spuSaleAttrValueList"
                 :key="spuSaleAttrValue.id"
                 closable
                 :disable-transitions="false"
+                @close="handleClose(spuSaleAttrValue,row.spuSaleAttrValueList,index)"
               >
                 {{ spuSaleAttrValue.saleAttrValueName }}
               </el-tag>
-              <!--  @keyup.enter.native="handleInputConfirm"
-                @blur="handleInputConfirm" -->
-
               <!-- row.inputVisible是代表是否是编辑模式. 之前属性管理是把这个值定义在属性值上,因为我们
                 每个属性当中所有的属性值都不能有自己的编辑模式和查看模式,而是每个属性有一个之前我们是每个属性
                 值都有自己的编辑模式和查看模式,而且每个属性值都有自己的编辑模式和查看模式
@@ -112,6 +110,9 @@
                 v-model="row.inputValue"
                 class="input-new-tag"
                 size="small"
+                placeholder="名称"
+                @keyup.enter.native="handleInputConfirm(row)"
+                @blur="handleInputConfirm(row)"
               />
               <el-button
                 v-else
@@ -133,6 +134,7 @@
                 type="danger"
                 size="mini"
                 icon="el-icon-delete"
+                @click="deleteSaleAttr(row,$index)"
               />
             </div>
           </template>
@@ -144,13 +146,14 @@
       >保存</el-button>
       <el-button
         size="default"
-        @click="$emit('update:visible',false)"
+        @click="cancelAddOrUpd"
       >取消</el-button>
 
     </el-form-item>
   </el-form>
 </template>
 <script>
+// import { spu } from '@/api'
 export default {
   name: 'SpuForm',
   data () {
@@ -165,9 +168,9 @@ export default {
       },
       spuImageList: [], // 获取的spu图片列表
       trademarkList: [], // 获取的品牌列表
-      spuSaleAttrList: [], // 获取的销售属性列表
+      baseSpuSaleAttrList: [], // 获取的销售属性列表
       // 销售属性id
-      spuSaleAttrId: '',
+      spuSaleAttrIdName: '',
       dialogImageUrl: '',
       dialogVisible: false,
       inputVisible: false,
@@ -180,15 +183,100 @@ export default {
     unUsedSpuSaleAttrList () {
       /* 从所有的销售属性列表中去过滤,过滤出销售属性列表当中每个销售属性名称都不相同的 */
       // 从所有销售属性拿一项,去和自己已有的数组每个比较,如果都不相等,就拿走,有相等就不要
-      return this.spuSaleAttrList.filter(spuSaleAttr =>
+      return this.baseSpuSaleAttrList.filter(baseSpuSaleAttr =>
         this.spuForm.spuSaleAttrList.every(mySpuSaleAttr =>
-          spuSaleAttr.name !== mySpuSaleAttr.saleAttrName))
+          baseSpuSaleAttr.name !== mySpuSaleAttr.saleAttrName))
     }
   },
   methods: {
-    handleRemove (file, fileList) {
-      console.log(file, fileList)
+    deleteSaleAttr (spuSaleAttr, index) {
+      const attrName = spuSaleAttr.saleAttrName
+      this.$confirm(`是否删除${attrName}销售属性`, '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+        beforeClose: (action, instance, done) => {
+          if (action === 'confirm') {
+            this.spuForm.spuSaleAttrList.splice(index, 1)
+          }
+          done()
+        }
+      }).then(() => {
+        this.$message.success('删除销售属性成功')
+      }).catch(() => {
+        this.$message.info('取消删除')
+      })
     },
+    // 删除当前属性值
+    handleClose (spuSaleAttrValue, spuSaleAttrValueList, index) {
+      this.$confirm(`是否删除${spuSaleAttrValue.saleAttrValueName}`, '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+        beforeClose: (action, instance, done) => {
+          if (action === 'confirm') {
+            spuSaleAttrValueList.splice(index, 1)
+          }
+          done()
+        }
+      }).then(() => {
+        this.$message.success('删除属性值成功')
+      }).catch(() => {
+        this.$message.info('取消删除')
+      })
+    },
+    // input 的失去焦点和回车的事件添加属性值
+    handleInputConfirm (spuSaleAttr) {
+      const saleAttrValueName = spuSaleAttr.inputValue.trim()
+      if (saleAttrValueName === '') {
+        spuSaleAttr.inputValue = ''
+        return
+      }
+      // 判断不能和存在的重复
+      const isRepeat = spuSaleAttr.spuSaleAttrValueList.some(item => item.saleAttrValueName === saleAttrValueName)
+      if (isRepeat) {
+        this.$message.info('输入的属性值不能重复')
+        spuSaleAttr.inputValue = ''
+        return
+      }
+      spuSaleAttr.spuSaleAttrValueList.push({
+        saleAttrValueName
+      })
+      spuSaleAttr.inputValue = ''
+      spuSaleAttr.inputVisible = false
+    },
+    // 添加销售属性值
+    showInput (spuSaleAttr) {
+      // 显示当前的input
+      this.$set(spuSaleAttr, 'inputVisible', true)
+      // spuSaleAttr.inputVisible = true
+      // 自动获取焦点
+      this.$nextTick(() => {
+        this.$refs.saveTagInput.focus()
+      })
+    },
+    // 添加销售属性
+    addSaleAttr () {
+      const [baseSaleAttrId, saleAttrName] = this.spuSaleAttrIdName.split(':')
+      const spuSaleAttr = {
+        baseSaleAttrId,
+        saleAttrName,
+        spuSaleAttrValueList: []
+      }
+      this.spuForm.spuSaleAttrList.push(spuSaleAttr)
+      // 清空
+      this.spuSaleAttrIdName = ''
+    },
+    // 上传成功的回调
+    handleSuccess (response, file, fileList) {
+      console.log(response, file, fileList)
+      this.spuImageList = fileList
+    },
+    // 删除图片
+    handleRemove (file, fileList) {
+      this.spuImageList = fileList
+    },
+    // 预览大图
     handlePictureCardPreview (file) {
       this.dialogImageUrl = file.url
       this.dialogVisible = true
@@ -229,8 +317,17 @@ export default {
       // baseSaleAttrList
       this.$API.spu.getSaleAttrList()
     },
-    showInput (spuSaleAttr) {
-      spuSaleAttr.inputVisible = true
+    // 取消添加或修改
+    cancelAddOrUpd () {
+      this.$emit('update:visible', false)
+      this.spuForm = {
+        category3Id: 0,
+        spuName: '',
+        description: '',
+        tmId: '',
+        spuImageList: [],
+        spuSaleAttrList: []
+      }
     }
   }
 }
