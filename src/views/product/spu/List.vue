@@ -53,8 +53,14 @@
                 icon="el-icon-edit"
                 title="修改SPU"
                 size="mini"
-                @click="toShowSpuForm(row)"
+                @click.native="toShowSpuForm(row)"
               />
+              <!-- <el-button
+                type="primary"
+                size="default"
+                @click.prevent="toShowSpuForm(row)"
+              /> -->
+
               <hintBtn
                 type="info"
                 icon="el-icon-info"
@@ -87,6 +93,7 @@
         v-show="isShowSpuForm"
         ref="spu"
         :visible.sync="isShowSpuForm"
+        @successBack="successBack"
       />
       <SkuForm v-show="isShowSkuForm" />
     </el-card>
@@ -171,11 +178,13 @@ export default {
     toShowSpuForm (spu) {
       this.isShowSpuForm = true
       // 拿到子组件对象,可以使用组件中的数据也可以调用子组件
-      if (spu) {
+      // 修改
+      if (spu.id) {
         this.$refs.spu.initUpdSpuFormData(spu)
         return
       }
-      this.$refs.spu.initAddSpuFormData()
+      // 添加
+      this.$refs.spu.initAddSpuFormData(this.category.category3Id)
     },
     /**
     * 显示SkuForm 进行添加Sku
@@ -189,6 +198,14 @@ export default {
     toShowList () {
       this.isShowSpuForm = false
       this.isShowSkuForm = false
+    },
+    /**
+     * 成功返回后让父组件重新获取数据
+     */
+    successBack (isUpdate) {
+      // 发请求重新获取数据
+      // 修改还是添加
+      this.getSpuPageList(isUpdate ? this.pagination.currentPage : 1)
     }
   }
 }

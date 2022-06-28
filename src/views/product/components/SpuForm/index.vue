@@ -140,13 +140,13 @@
                 icon="el-icon-delete"
               />
             </el-popconfirm>
-
           </template>
         </el-table-column>
       </el-table>
       <el-button
         type="primary"
         size="default"
+        @click="save"
       >保存</el-button>
       <el-button
         size="default"
@@ -168,6 +168,8 @@ export default {
         spuImageList: [],
         spuSaleAttrList: []
       },
+      isUpdate: false, // 添加还是修改
+      category3Id: 0,
       spuImageList: [], // 获取的spu图片列表
       trademarkList: [], // 获取的品牌列表
       baseSpuSaleAttrList: [], // 获取的销售属性列表
@@ -191,6 +193,64 @@ export default {
     }
   },
   methods: {
+    // 保存
+    async save () {
+      // 获取收集数据
+      const { spuForm, spuImageList, category3Id, isUpdate } = this
+      // 整理参数
+      // 1 整理图片列表
+      spuForm.spuImageList = this.formatImageList(spuImageList)
+      // 2 添加三级列表id
+      spuForm.category3Id = category3Id
+      // 3 删除属性当中的inputVisible inputValue
+      spuForm.spuSaleAttrList.forEach(item => {
+        delete item.inputVisible
+        delete item.inputValue
+      })
+      // 发请求
+      try {
+        await this.$API.spu.addOrUpd(spuForm)
+        // 成功
+        this.$message.success('保存成功')
+        this.cancelAddOrUpd()
+        // 通知父组件重新获取数据
+        this.$emit('successBack', isUpdate)
+      } catch (error) {
+        // 失败
+        this.$message.error('保存失败')
+      }
+    },
+    // 整理图片列表
+    formatImageList (spuImageList) {
+      // 老图
+      /* {
+        id:'',
+        imgName:'',
+        name:'',
+        spuId:'',
+        status:"success",
+        uid:4564654654,
+        url:''
+      } */
+      // 新图
+      /*
+      {
+        name:'',
+        percentage:100,
+        raw:File,
+        response:{code:201,message:"失败",data:null,ok:false},
+        size:488486,
+        status:'success',
+        uid:4564654654,
+        url:''本地的url
+      }
+      */
+      return spuImageList.map(item => ({
+        imgName: item.name,
+        imgUrl: item.imgUrl || item.response.data
+      })
+      )
+    },
     // 删除属性
     deleteSaleAttr (index) {
       this.spuForm.spuSaleAttrList.splice(index, 1)
@@ -271,6 +331,8 @@ export default {
     },
     // 修改时获取初始化数据
     async initUpdSpuFormData (spu) {
+      this.isUpdate = true
+      this.category3Id = spu.category3Id
       // getSpuById
       const spuResult = await this.$API.spu.getSpuInfo(spu.id)
       if (spuResult.code === 200) {
@@ -299,15 +361,27 @@ export default {
       }
     },
     // 添加时获取初始化数据
-    async initAddSpuFormData () {
+    async initAddSpuFormData (category3Id) {
+      this.isUpdate = false
+      this.category3Id = category3Id
       // getTrademark
-      this.$API.trademark.getList()
+      const trademarkResult = await this.$API.trademark.getList()
+      if (trademarkResult.code === 200) {
+        this.trademarkList = trademarkResult.data
+      }
       // baseSaleAttrList
-      this.$API.spu.getSaleAttrList()
+      const saleResult = await this.$API.spu.getSaleAttrList()
+      if (saleResult.code === 200) {
+        this.spuSaleAttrList = saleResult.data
+      }
     },
-    // 取消添加或修改
+    // 取消添加或修改 保存成功返回列表页
     cancelAddOrUpd () {
       this.$emit('update:visible', false)
+      this.resetData()
+    },
+    //  清空数据
+    resetData () {
       this.spuForm = {
         category3Id: 0,
         spuName: '',
@@ -316,6 +390,15 @@ export default {
         spuImageList: [],
         spuSaleAttrList: []
       }
+      this.category3Id = ''
+      this.spuImageList = []
+      this.trademarkList = []
+      this.baseSpuSaleAttrList = []
+      this.spuSaleAttrIdName = ''
+      this.dialogImageUrl = ''
+      this.dialogVisible = false
+      this.inputVisible = false
+      this.inputValue = ''
     }
   }
 }
