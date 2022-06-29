@@ -55,24 +55,24 @@
                 size="mini"
                 @click.native="toShowSpuForm(row)"
               />
-              <!-- <el-button
-                type="primary"
-                size="default"
-                @click.prevent="toShowSpuForm(row)"
-              /> -->
-
               <hintBtn
                 type="info"
                 icon="el-icon-info"
                 title="查看"
                 size="mini"
               />
-              <hintBtn
-                type="danger"
-                icon="el-icon-delete"
-                title="删除"
-                size="mini"
-              />
+              <el-popconfirm
+                :title="`确定删除${row.spuName}吗？`"
+                @onConfirm="deleteSpu(row.id)"
+              >
+                <hintBtn
+                  slot="reference"
+                  type="danger"
+                  icon="el-icon-delete"
+                  title="删除"
+                  size="mini"
+                />
+              </el-popconfirm>
 
             </template>
           </el-table-column>
@@ -206,6 +206,20 @@ export default {
       // 发请求重新获取数据
       // 修改还是添加
       this.getSpuPageList(isUpdate ? this.pagination.currentPage : 1)
+    },
+    /**
+     *  deleteSpu(spuId) {
+     *  return request.delete(`/admin/product/deleteSpu/${spuId}`)
+     *  },
+     * */
+    async deleteSpu (spuId) {
+      try {
+        await this.$API.spu.deleteSpu(spuId)
+        this.$message('删除成功')
+        this.getSpuPageList(this.spuList.length > 1 ? this.pagination.currentPage : this.pagination.currentPage - 1)
+      } catch (error) {
+        this.$message('删除失败')
+      }
     }
   }
 }

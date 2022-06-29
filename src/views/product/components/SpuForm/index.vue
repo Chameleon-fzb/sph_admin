@@ -276,6 +276,7 @@ export default {
     // input 的失去焦点和回车的事件添加属性值
     handleInputConfirm (spuSaleAttr) {
       const saleAttrValueName = spuSaleAttr.inputValue.trim()
+      const baseSaleAttrId = spuSaleAttr.baseSaleAttrId
       if (saleAttrValueName === '') {
         spuSaleAttr.inputValue = ''
         return
@@ -288,6 +289,7 @@ export default {
         return
       }
       spuSaleAttr.spuSaleAttrValueList.push({
+        baseSaleAttrId,
         saleAttrValueName
       })
       spuSaleAttr.inputValue = ''
