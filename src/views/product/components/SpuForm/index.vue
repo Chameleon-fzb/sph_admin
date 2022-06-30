@@ -189,7 +189,8 @@ export default {
       // 从所有销售属性拿一项,去和自己已有的数组每个比较,如果都不相等,就拿走,有相等就不要
       return this.baseSpuSaleAttrList.filter(baseSpuSaleAttr =>
         this.spuForm.spuSaleAttrList.every(mySpuSaleAttr =>
-          baseSpuSaleAttr.name !== mySpuSaleAttr.saleAttrName))
+          (baseSpuSaleAttr.name !== mySpuSaleAttr.saleAttrName))
+      )
     }
   },
   methods: {
@@ -359,7 +360,7 @@ export default {
       // baseSaleAttrList
       const saleResult = await this.$API.spu.getSaleAttrList()
       if (saleResult.code === 200) {
-        this.spuSaleAttrList = saleResult.data
+        this.baseSpuSaleAttrList = saleResult.data
       }
     },
     // 添加时获取初始化数据
@@ -374,7 +375,7 @@ export default {
       // baseSaleAttrList
       const saleResult = await this.$API.spu.getSaleAttrList()
       if (saleResult.code === 200) {
-        this.spuSaleAttrList = saleResult.data
+        this.baseSpuSaleAttrList = saleResult.data
       }
     },
     // 取消添加或修改 保存成功返回列表页
