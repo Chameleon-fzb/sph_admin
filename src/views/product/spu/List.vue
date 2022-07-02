@@ -95,7 +95,11 @@
         :visible.sync="isShowSpuForm"
         @successBack="successBack"
       />
-      <SkuForm v-show="isShowSkuForm" />
+      <SkuForm
+        v-show="isShowSkuForm"
+        ref="sku"
+        :visible.sync="isShowSkuForm"
+      />
     </el-card>
   </div>
 
@@ -189,8 +193,9 @@ export default {
     /**
     * 显示SkuForm 进行添加Sku
     */
-    toShowSkuForm () {
+    toShowSkuForm (spu) {
       this.isShowSkuForm = true
+      this.$refs.sku.initAddSpuFormData(spu, this.category)
     },
     /**
      * 点击取消
@@ -215,10 +220,10 @@ export default {
     async deleteSpu (spuId) {
       try {
         await this.$API.spu.deleteSpu(spuId)
-        this.$message('删除成功')
+        this.$message.success('删除成功')
         this.getSpuPageList(this.spuList.length > 1 ? this.pagination.currentPage : this.pagination.currentPage - 1)
       } catch (error) {
-        this.$message('删除失败')
+        this.$message.error('删除失败')
       }
     }
   }
