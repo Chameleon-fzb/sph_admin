@@ -124,9 +124,10 @@
     <el-dialog
       :title="`${dialogTitle}sku列表`"
       :visible.sync="dialogTableVisible"
-      @closed="skuList=[]"
+      @closed="closed"
     >
       <el-table
+        v-loading="loading"
         :data="skuList"
         border
         stripe
@@ -180,6 +181,7 @@ export default {
       isShowSkuForm: false,
       dialogTableVisible: false,
       dialogTitle: '',
+      loading: true,
       category: {
         category1Id: '',
         category2Id: '',
@@ -192,6 +194,7 @@ export default {
       },
       spuList: [],
       skuList: []
+
     }
   },
   methods: {
@@ -294,12 +297,20 @@ export default {
     async showSkus (spu) {
       try {
         this.dialogTitle = spu.spuName
+        this.dialogTableVisible = true
         const result = await this.$API.sku.getListBySpuId(spu.id)
         this.skuList = result.data
-        this.dialogTableVisible = true
+        this.loading = false
       } catch (error) {
         this.$message.error('获取sku列表失败')
       }
+    },
+    /**
+     * 对话框关闭后
+     */
+    closed () {
+      this.skuList = []
+      this.loading = true
     }
   }
 }
