@@ -60,6 +60,7 @@
                 icon="el-icon-info"
                 title="查看"
                 size="mini"
+                @click="showSkus(row)"
               />
               <el-popconfirm
                 :title="`确定删除${row.spuName}吗？`"
@@ -101,6 +102,64 @@
         :visible.sync="isShowSkuForm"
       />
     </el-card>
+    <!--
+      放在 查看按钮下 不能实现,而且每一项都会有
+      对话框,后一个会覆盖前一个,最终只会显示最后一个,并不是我们要的
+       :title="`${row.spuName}sku列表`"
+       只显示一个
+       放在结尾
+       使用标识变量
+      :title="`${dialogTitle}sku列表`"
+      查看时传入 row
+       <hintBtn
+          type="info"
+          icon="el-icon-info"
+          title="查看"
+          size="mini"
+          @click="showSkus(row)"
+        />
+        将 row.spuName 保存到 dialogTitle
+        保证只显示一项
+      -->
+    <el-dialog
+      :title="`${dialogTitle}sku列表`"
+      :visible.sync="dialogTableVisible"
+      @closed="skuList=[]"
+    >
+      <el-table
+        :data="skuList"
+        border
+        stripe
+      >
+        <el-table-column
+          prop="skuName"
+          label="名称"
+          width="width"
+        />
+        <el-table-column
+          prop="price"
+          label="价格"
+          width="width"
+        />
+        <el-table-column
+          prop="weight"
+          label="重量"
+          width="width"
+        />
+        <el-table-column
+          label="默认图片"
+          width="width"
+        >
+          <template slot-scope="props">
+            <el-image
+              style="width: 100px; height: 100px"
+              :src="props.row.skuDefaultImg"
+              fit="fill"
+            />
+          </template>
+        </el-table-column>
+      </el-table>
+    </el-dialog>
   </div>
 
 </template>
@@ -119,6 +178,8 @@ export default {
       isShowList: true,
       isShowSpuForm: false,
       isShowSkuForm: false,
+      dialogTableVisible: false,
+      dialogTitle: '',
       category: {
         category1Id: '',
         category2Id: '',
@@ -129,7 +190,8 @@ export default {
         limit: 5,
         total: 0
       },
-      spuList: []
+      spuList: [],
+      skuList: []
     }
   },
   methods: {
@@ -224,6 +286,19 @@ export default {
         this.getSpuPageList(this.spuList.length > 1 ? this.pagination.currentPage : this.pagination.currentPage - 1)
       } catch (error) {
         this.$message.error('删除失败')
+      }
+    },
+    /**
+     * 查看sku列表
+     */
+    async showSkus (spu) {
+      try {
+        this.dialogTitle = spu.spuName
+        const result = await this.$API.sku.getListBySpuId(spu.id)
+        this.skuList = result.data
+        this.dialogTableVisible = true
+      } catch (error) {
+        this.$message.error('获取sku列表失败')
       }
     }
   }
