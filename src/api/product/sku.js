@@ -57,5 +57,18 @@ export default {
    */
   getSpuSaleAttrList(spuId) {
     return request.get(`/admin/product/spuSaleAttrList/${spuId}`)
+  },
+  /**
+   * 获取sku的分页列表数据
+   * GET /admin/product/list/{page}/{limit}
+   */
+  getSkuList(page, limit) {
+    return request.get(`/admin/product/list/${page}/${limit}`)
+  },
+  /**
+   * 获取sku详情
+   */
+  getSkuInfo(skuId) {
+    return request.get(`/admin/product/getSkuById/${skuId}`)
   }
 }
