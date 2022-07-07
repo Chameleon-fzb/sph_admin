@@ -75,6 +75,7 @@
               size="mini"
               title="修改"
               icon="el-icon-edit"
+              @click="updateSku"
             />
             <hintBtn
               type="info"
@@ -83,12 +84,19 @@
               icon="el-icon-info"
               @click="showSkuInfo(row)"
             />
-            <hintBtn
-              type="danger"
-              size="mini"
-              title="删除"
-              icon="el-icon-delete"
-            />
+            <el-popconfirm
+              :title="`确认删除${row.skuName}sku吗?`"
+              @onConfirm="deleteSku(row.id)"
+            >
+              <hintBtn
+                slot="reference"
+                type="danger"
+                size="mini"
+                title="删除"
+                icon="el-icon-delete"
+              />
+            </el-popconfirm>
+
           </template>
 
         </el-table-column>
@@ -288,6 +296,18 @@ export default {
     handleClose () {
       this.skuInfo = {}
       this.loading = true
+    },
+    updateSku () {
+      this.$message.info('此功能正在开发中')
+    },
+    async deleteSku (skuId) {
+      const result = await this.$API.sku.deleteSku(skuId)
+      if (result.code === 200) {
+        this.$message.success('删除成功')
+        this.getSkuList(this.skuList.length > 1 ? this.pagination.currentPage : ((this.pagination.currentPage - 1) || 1))
+        return
+      }
+      this.$message.error('删除失败')
     }
   }
 }
