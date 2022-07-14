@@ -69,7 +69,7 @@
         <el-card>
           <Detail
             title="支付笔数"
-            count="99469"
+            count="12346"
           >
             <template slot="charts">
               <BarChart />
@@ -151,7 +151,7 @@ export default {
 <style lang="scss" scoped>
 .el-row {
   .el-col {
-    padding: 0 2px;
+    padding: 0 5px;
   }
 }
 </style>
