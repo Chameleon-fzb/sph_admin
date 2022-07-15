@@ -22,11 +22,13 @@
         </el-tabs>
         <!-- 右侧 -->
         <div class="right_header">
-          <span>今日</span>
-          <span>本周</span>
-          <span>本月</span>
-          <span>本年</span>
+          <span @click="setDay">今日</span>
+          <span @click="setWeek">本周</span>
+          <span @click="setMonth">本月</span>
+          <span @click="setYear">本年</span>
           <el-date-picker
+            v-model="date"
+            value-format="yyyy-MM-dd"
             type="daterange"
             size="small"
             range-separator="-"
@@ -92,13 +94,14 @@
 </template>
 <script>
 import * as echarts from 'echarts'
+import dayjs from 'dayjs'
 export default {
   name: 'Sale',
   data () {
     return {
+      date: [],
       activeName: 'sale',
       charts: null,
-
       sale: [180, 52, 200, 334, 390, 330, 220, 130, 49, 120, 122, 290],
       visit: [450, 352, 520, 634, 890, 530, 420, 330, 149, 200, 300, 500]
     }
@@ -106,9 +109,6 @@ export default {
   computed: {
     title () {
       return this.activeName === 'sale' ? '销售额' : '访问量'
-    },
-    arr () {
-      return this.activeName === 'sale' ? this.sale : this.visit
     }
   },
   mounted () {
@@ -120,9 +120,10 @@ export default {
       this.chartsSetOption()
     },
     chartsSetOption () {
-      const { title
-        // arr: data
-      } = this
+      const { title } = this
+      const isSale = title === '销售额'
+      const color = isSale ? '#159781' : '#7a4a85'
+
       this.charts.setOption({
         tooltip: {
           trigger: 'axis',
@@ -159,10 +160,30 @@ export default {
             type: 'bar',
             barWidth: '60%',
             data: this[`${this.activeName}`],
-            color: '#159781'
+            color
           }
         ]
       })
+    },
+    // 设置今天
+    setDay () {
+      const day = dayjs().format('YYYY-MM-DD')
+      this.date = [day, day]
+    },
+    setWeek () {
+      const weekStart = dayjs().day(1).format('YYYY-MM-DD')
+      const weekEnd = dayjs().day(7).format('YYYY-MM-DD')
+      this.date = [weekStart, weekEnd]
+    },
+    setMonth () {
+      const monthStart = dayjs().startOf().format('YYYY-MM-DD')
+      const monthEnd = dayjs().endOf().format('YYYY-MM-DD')
+      this.date = [monthStart, monthEnd]
+    },
+    setYear () {
+      const yearStart = dayjs().startOf('year').format('YYYY-MM-DD')
+      const yearEnd = dayjs().endOf('year').format('YYYY-MM-DD')
+      this.date = [yearStart, yearEnd]
     }
   }
 }
@@ -188,6 +209,7 @@ export default {
       span {
         margin-right: 28px;
         font-size: 14px;
+        cursor: pointer;
       }
     }
   }
