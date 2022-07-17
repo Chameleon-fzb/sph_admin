@@ -102,7 +102,6 @@
         :page-size="pagination.limit"
         layout=" prev, pager, next"
         :total="pagination.totalNum"
-        @current-change="currentChange"
       />
     </div>
   </el-card>
@@ -133,8 +132,10 @@ export default {
 </script>
 <style lang="scss" scoped>
 .search_header {
+  height: 20px;
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 .el-row {
   .el-col {
