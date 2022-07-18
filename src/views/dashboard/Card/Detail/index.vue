@@ -19,7 +19,15 @@
         />
       </svg>
     </div>
-    <div class="card-content">{{ count }}</div>
+    <div class="card-content">
+      <countTo
+        :start-val="0"
+        :end-val="parseInt(count)"
+        :duration="2000"
+        :prefix="isMoney ? '￥ ' : ''"
+        :suffix="isPercent? ' %' :''"
+      />
+    </div>
     <div class="card-charts">
       <div class="card-charts">
         <slot name="charts" />
@@ -31,13 +39,18 @@
   </div>
 </template>
 <script>
+import countTo from 'vue-count-to'
 export default {
   name: 'Detail',
+  components: {
+    countTo
+  },
   props: {
     title: { type: String, required: true },
-    count: { type: String, required: true }
+    count: { type: Number, required: true },
+    isMoney: { type: Boolean, default: false },
+    isPercent: { type: Boolean, default: false }
   }
-
 }
 </script>
 <style lang="scss" scoped>

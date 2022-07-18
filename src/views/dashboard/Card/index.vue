@@ -5,7 +5,8 @@
         <el-card>
           <Detail
             title="总销售额"
-            count="￥ 125654"
+            count="125654"
+            :is-money="true"
           >
             <template slot="charts">
               <span>周同比&nbsp;&nbsp;56.67%
@@ -88,7 +89,8 @@
         <el-card>
           <Detail
             title="运营活动效果"
-            count="78%"
+            count="78"
+            :is-percent="true"
           >
             <template slot="charts">
               <ProgressChart />

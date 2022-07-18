@@ -52,36 +52,79 @@
                 <li>
                   <span class="rank_index">1</span>
                   <span class="rank_name">蛙小侠</span>
-                  <span class="rank_num">2342342</span>
+                  <span class="rank_num">
+                    <countTo
+                      :start-val="0"
+                      :end-val="2342801"
+                      :duration="2000"
+                    />
+                  </span>
                 </li>
                 <li>
                   <span class="rank_index">2</span>
                   <span class="rank_name">肯德基</span>
-                  <span class="rank_num">2100342</span>
+                  <span class="rank_num">
+                    <countTo
+                      :start-val="0"
+                      :end-val="2100249"
+                      :duration="2000"
+                    />
+                  </span>
                 </li>
                 <li>
                   <span class="rank_index">3</span>
                   <span class="rank_name">麦当劳</span>
-                  <span class="rank_num">1942342</span>
+                  <span class="rank_num">
+                    <countTo
+                      :start-val="0"
+                      :end-val="1942647"
+                      :duration="2000"
+                    />
+                  </span>
                 </li>
                 <li>
                   <span class="rank_index">4</span>
                   <span class="rank_name">海底捞</span>
-                  <span>1742342</span>
+                  <span class="rank_num">
+                    <countTo
+                      :start-val="0"
+                      :end-val="1742454"
+                      :duration="2000"
+                    />
+                  </span>
                 </li>
                 <li><span class="rank_index">5</span>
                   <span class="rank_name">椒王火锅</span>
-                  <span class="rank_num">1502342</span>
+                  <span class="rank_num">
+                    <countTo
+                      :start-val="0"
+                      :end-val="1502343"
+                      :duration="2000"
+                    />
+                  </span>
                 </li>
                 <li>
                   <span class="rank_index">6</span>
                   <span class="rank_name">真功夫</span>
-                  <span class="rank_num">1462342</span>
+                  <span class="rank_num">
+                    <countTo
+                      :start-val="0"
+                      :end-val="1462242"
+                      :duration="2000"
+                    />
+                  </span>
                 </li>
                 <li>
                   <span class="rank_index">7</span>
                   <span class="rank_name">汉堡王</span>
-                  <span class="rank_num">1342342</span>
+                  <span class="rank_num">
+
+                    <countTo
+                      :start-val="0"
+                      :end-val="1342141"
+                      :duration="2000"
+                    />
+                  </span>
                 </li>
               </ul>
             </div>
@@ -94,9 +137,13 @@
 </template>
 <script>
 import * as echarts from 'echarts'
+import countTo from 'vue-count-to'
 import dayjs from 'dayjs'
 export default {
   name: 'Sale',
+  components: {
+    countTo
+  },
   data () {
     return {
       date: [],
