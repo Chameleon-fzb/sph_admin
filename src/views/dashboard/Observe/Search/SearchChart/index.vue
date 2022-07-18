@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="card-header">
+    <div class="charts_header">
       <span>{{ title }}</span>
       <svg
         t="1657560100645"
@@ -19,48 +19,67 @@
         />
       </svg>
     </div>
-    <div class="card-content">{{ count }}</div>
-    <div class="card-charts">
-      <div class="card-charts">
-        <slot name="charts" />
-      </div>
+    <div class="charts_main">
+      <span>
+        {{ num }}
+      </span>
+      <span class="text">
+        <slot name="main_svg" />
+      </span>
+      <LineChart
+        height="60px"
+        :chart-data="chartData"
+      />
     </div>
-    <div class="card-footer">
-      <slot name="footer" />
-    </div>
+    <div class="charts_footer" />
   </div>
+
 </template>
 <script>
+import LineChart from '../../../components/LineChart'
 export default {
-  name: 'Detail',
+  name: 'SearchChart',
+  components: {
+    LineChart
+  },
   props: {
-    title: { type: String, required: true },
-    count: { type: String, required: true }
+    title: {
+      type: String,
+      required: true
+    },
+    num: {
+      type: String,
+      required: true
+    },
+    chartData: {
+      type: Array,
+      required: true
+    }
   }
-
 }
+
 </script>
 <style lang="scss" scoped>
-.card-header {
+// .charts {
+//   width: 100%;
+//   height: 60px;
+// }
+.charts_header {
   display: flex;
-  justify-content: space-between;
+  margin-bottom: 25px;
   span {
     font-size: 14px;
-    color: #bfbfbf;
+    color: #9f9f9f;
+    margin-right: 10px;
   }
 }
-.card-content {
-  font-size: 30px;
-  padding: 10px 0;
-}
-.card-charts {
-  height: 50px;
-  font-size: 14px;
-}
-.card-footer {
-  height: 20px;
-  font-size: 13px;
-  line-height: 20px;
-  border-top: 1px solid #eee;
+.charts_main {
+  span {
+    margin-right: 20px;
+  }
+  .text {
+    font-size: 14px;
+    color: #9f9f9f;
+  }
 }
 </style>

@@ -57,7 +57,11 @@
             title="访问量"
             count="99469"
           > <template slot="charts">
-              <LineChart />
+              <!-- <LineChart /> -->
+              <LineChart
+                height="100%"
+                :chart-data="chartData"
+              />
             </template>
             <template slot="footer">
               日访问量 1677
@@ -135,7 +139,7 @@
 </template>
 <script>
 import ProgressChart from './ProgressChart'
-import LineChart from './LineChart'
+import LineChart from '../components/LineChart'
 import BarChart from './BarChart'
 import Detail from './Detail'
 export default {
@@ -145,6 +149,11 @@ export default {
     LineChart,
     BarChart,
     ProgressChart
+  },
+  data () {
+    return {
+      chartData: [10, 45, 23, 50, 30, 45, 67, 89, 45, 57, 23, 34, 25, 28, 70]
+    }
   }
 }
 </script>

@@ -21,9 +21,10 @@
     <div>
       <el-row>
         <el-col :span="12">
-          <lineChart
+          <SearchChart
             title="搜索用户数"
             num="124465"
+            :chart-data="searchData.searchUsers"
           >
             <template slot="main_svg">
               17.1
@@ -43,12 +44,13 @@
                   fill="#1aaa1a"
                 />
               </svg></template>
-          </lineChart>
+          </SearchChart>
         </el-col>
         <el-col :span="12">
-          <lineChart
+          <SearchChart
             title="人均搜索次数"
             num="2.7"
+            :chart-data="searchData.averageSearch"
           >
 
             <template slot="main_svg">
@@ -70,7 +72,7 @@
                 />
               </svg>
             </template>
-          </lineChart>
+          </SearchChart>
         </el-col>
       </el-row>
       <el-table
@@ -107,11 +109,11 @@
   </el-card>
 </template>
 <script>
-import lineChart from './LineChart'
+import SearchChart from './SearchChart'
 export default {
   name: 'Search',
   components: {
-    lineChart
+    SearchChart
   },
   data () {
     return {
@@ -120,6 +122,11 @@ export default {
         page: 1,
         totalNum: 100,
         limit: 1
+      },
+      searchData: {
+        searchUsers: [189, 290, 400, 200, 300, 108, 408, 560, 390, 402, 207, 340, 689],
+        averageSearch: [19, 29, 10, 30, 38, 28, 38, 18, 9, 4, 20, 40, 19]
+
       }
     }
   },
