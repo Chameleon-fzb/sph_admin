@@ -25,6 +25,7 @@
             title="搜索用户数"
             num="124465"
             :chart-data="searchData.searchUsers"
+            name="searchChart_1"
           >
             <template slot="main_svg">
               17.1
@@ -51,8 +52,8 @@
             title="人均搜索次数"
             num="2.7"
             :chart-data="searchData.averageSearch"
+            name="searchChart_2"
           >
-
             <template slot="main_svg">
               20.3
               <svg

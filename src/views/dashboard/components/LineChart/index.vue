@@ -3,8 +3,11 @@
 </template>
 <script>
 import * as echarts from 'echarts'
+import merge from 'lodash/merge'
+import resize from '../mixins/resize'
 export default {
   name: 'LineChart',
+  mixins: [resize],
   props: {
     className: {
       type: String,
@@ -22,7 +25,18 @@ export default {
       type: Array,
       required: true
     },
-    chartOption: {
+    name: {
+      type: String,
+      required: true
+
+    },
+    seriesOption: {
+      type: Array,
+      default () {
+        return [{ name: this.name }]
+      }
+    },
+    otherOption: {
       type: Object,
       default () {
         return {}
@@ -32,19 +46,8 @@ export default {
   },
   data () {
     return {
-      chart: null
-    }
-  },
-  mounted () {
-    this.initChart()
-  },
-  methods: {
-    initChart () {
-      this.chart = echarts.init(this.$el)
-      this.setOption(this.chartData)
-    },
-    setOption () {
-      this.chart.setOption({
+      chart: null,
+      option: {
         xAxis: {
           show: false,
           type: 'category'
@@ -54,6 +57,7 @@ export default {
         },
         series: [
           {
+            name: this.name,
             type: 'line',
             data: this.chartData,
             // 拐点的样式
@@ -94,10 +98,27 @@ export default {
           right: 0,
           bottom: 0
         }
-      })
+      }
     }
-  }
+  },
+  computed: {
+    seriesObj () {
+      const { seriesOption } = this
+      seriesOption[0].name = this.name
+      return { series: seriesOption }
+    },
 
+    chartOption () {
+      const { option, seriesObj, otherOption } = this
+      return merge(option, seriesObj, otherOption)
+    }
+  },
+  mounted () {
+    this.chart = echarts.init(this.$el)
+  },
+  beforeDestroy () {
+    this.chart = null
+  }
 }
 </script>
 <style>

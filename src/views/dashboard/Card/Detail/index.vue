@@ -47,7 +47,7 @@ export default {
   },
   props: {
     title: { type: String, required: true },
-    count: { type: Number, required: true },
+    count: { type: String, required: true },
     isMoney: { type: Boolean, default: false },
     isPercent: { type: Boolean, default: false }
   }

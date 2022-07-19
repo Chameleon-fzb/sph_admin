@@ -29,6 +29,9 @@
       <LineChart
         height="60px"
         :chart-data="chartData"
+        :name="name"
+        :series-option="seriesOption"
+        :other-option="otherOption"
       />
     </div>
     <div class="charts_footer" />
@@ -54,16 +57,28 @@ export default {
     chartData: {
       type: Array,
       required: true
+    },
+    name: {
+      type: String,
+      required: true
+    },
+    seriesOption: {
+      type: Array,
+      default () {
+        return [{ name: this.name }]
+      }
+    },
+    otherOption: {
+      type: Object,
+      default () {
+        return {}
+      }
     }
   }
 }
 
 </script>
 <style lang="scss" scoped>
-// .charts {
-//   width: 100%;
-//   height: 60px;
-// }
 .charts_header {
   display: flex;
   margin-bottom: 25px;

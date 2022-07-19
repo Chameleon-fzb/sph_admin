@@ -62,6 +62,7 @@
               <LineChart
                 height="100%"
                 :chart-data="chartData"
+                name="card2"
               />
             </template>
             <template slot="footer">
@@ -130,7 +131,6 @@
                     fill="#d81e06"
                   />
                 </svg>
-
               </span>
             </template>
           </Detail>
