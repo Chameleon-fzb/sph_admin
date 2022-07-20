@@ -1,7 +1,11 @@
 <template>
   <div>
     <el-row>
-      <el-col :span="6">
+      <el-col
+        :span="6"
+        :md="6"
+        :sm="12"
+      >
         <el-card>
           <Detail
             title="总销售额"
@@ -52,7 +56,11 @@
           </Detail>
         </el-card>
       </el-col>
-      <el-col :span="6">
+      <el-col
+        :span="6"
+        :md="6"
+        :sm="12"
+      >
         <el-card>
           <Detail
             title="访问量"
@@ -71,7 +79,11 @@
           </Detail>
         </el-card>
       </el-col>
-      <el-col :span="6">
+      <el-col
+        :span="6"
+        :md="6"
+        :sm="12"
+      >
         <el-card>
           <Detail
             title="支付笔数"
@@ -80,7 +92,8 @@
             <template slot="charts">
               <BarChart
                 height="100%"
-                :chart-data="chartData2"
+                :chart-data="card3.chartData"
+                :other-option="card3.otherOption"
                 name="card3"
               />
             </template>
@@ -90,7 +103,11 @@
           </Detail>
         </el-card>
       </el-col>
-      <el-col :span="6">
+      <el-col
+        :span="6"
+        :md="6"
+        :sm="12"
+      >
         <el-card>
           <Detail
             title="运营活动效果"
@@ -98,7 +115,15 @@
             :is-percent="true"
           >
             <template slot="charts">
-              <ProgressChart />
+              <!-- <ProgressChart /> -->
+              <BarChart
+                name="progress"
+                height="100%"
+                :chart-data="progress.chartData"
+                :other-option="progress.otherOption"
+                :series-option="progress.seriesOption"
+              />
+              <!-- <linechart/> -->
             </template>
             <template slot="footer">
               <span>周同比&nbsp;&nbsp;12.67%
@@ -144,7 +169,6 @@
   </div>
 </template>
 <script>
-import ProgressChart from './ProgressChart'
 import LineChart from '../components/LineChart'
 import BarChart from '../components/BarChart'
 import Detail from './Detail'
@@ -153,13 +177,51 @@ export default {
   components: {
     Detail,
     LineChart,
-    BarChart,
-    ProgressChart
+    BarChart
+    // ProgressChart
   },
   data () {
     return {
       chartData1: [10, 45, 23, 50, 30, 45, 67, 89, 45, 57, 23, 34, 25, 28, 70],
-      chartData2: [15, 45, 23, 50, 30, 45, 67, 34, 25, 28, 70]
+      card3: {
+        chartData: [15, 45, 23, 50, 30, 45, 67, 34, 25, 28, 70],
+        otherOption: {
+          xAxis: {
+            type: 'category'
+          }
+        }
+
+      },
+      progress: {
+        chartData: [78],
+        otherOption: {
+          xAxis: {
+            show: false,
+            type: '',
+            minx: 0,
+            max: 100
+          },
+          yAxis: {
+            show: false,
+            type: 'category'
+          },
+          grid: {
+            left: 0,
+            top: 0,
+            right: 0,
+            bottom: 0
+          },
+          label: { show: true, formatter: '|', position: 'right', distance: -1 }
+        },
+        seriesOption: [
+          {
+            type: 'bar',
+            barWidth: 20,
+            color: 'yellowgreen',
+            showBackground: true
+          }
+        ]
+      }
     }
   }
 }

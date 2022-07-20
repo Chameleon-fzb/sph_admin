@@ -47,7 +47,6 @@ export default {
       type: Object,
       default () {
         return {
-          title: { text: '' },
           xAxis: {},
           yAxis: {}
         }
@@ -59,8 +58,7 @@ export default {
       chart: null,
       option: {
         xAxis: {
-          show: false,
-          type: 'category'
+          show: false
         },
         yAxis: {
           show: false
@@ -77,8 +75,7 @@ export default {
           top: 0,
           right: 0,
           bottom: 0
-        },
-        tooltip: {}
+        }
       }
     }
   },

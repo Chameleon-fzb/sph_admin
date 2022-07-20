@@ -239,7 +239,6 @@ export default {
         }
       }
       this.seriesOption = [{
-        name: title,
         color: this.color
       }]
     },
