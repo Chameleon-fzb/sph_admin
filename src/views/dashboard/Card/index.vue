@@ -61,7 +61,7 @@
               <!-- <LineChart /> -->
               <LineChart
                 height="100%"
-                :chart-data="chartData"
+                :chart-data="chartData1"
                 name="card2"
               />
             </template>
@@ -78,7 +78,11 @@
             count="12346"
           >
             <template slot="charts">
-              <BarChart />
+              <BarChart
+                height="100%"
+                :chart-data="chartData2"
+                name="card3"
+              />
             </template>
             <template slot="footer">
               转化率 67%
@@ -142,7 +146,7 @@
 <script>
 import ProgressChart from './ProgressChart'
 import LineChart from '../components/LineChart'
-import BarChart from './BarChart'
+import BarChart from '../components/BarChart'
 import Detail from './Detail'
 export default {
   name: 'Card',
@@ -154,7 +158,8 @@ export default {
   },
   data () {
     return {
-      chartData: [10, 45, 23, 50, 30, 45, 67, 89, 45, 57, 23, 34, 25, 28, 70]
+      chartData1: [10, 45, 23, 50, 30, 45, 67, 89, 45, 57, 23, 34, 25, 28, 70],
+      chartData2: [15, 45, 23, 50, 30, 45, 67, 34, 25, 28, 70]
     }
   }
 }

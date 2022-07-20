@@ -22,6 +22,13 @@
         </el-tabs>
         <!-- 右侧 -->
         <div class="right_header">
+          <!-- <el-row>
+            <el-col
+              :span="24"
+              :xs-offset="12"
+            />
+
+          </el-row> -->
           <span @click="setDay">今日</span>
           <span @click="setWeek">本周</span>
           <span @click="setMonth">本月</span>
@@ -39,15 +46,32 @@
       </div>
       <div>
         <el-row>
-          <el-col :span="18">
-            <div
-              ref="charts"
-              class="charts"
+          <el-col
+            :span="18"
+            :lg="{span:15,offset:1}"
+            :md="{span:16,offset:1}"
+            :sm="{span:18,offset:3}"
+            :xs="{span:24,offset:0}"
+            :offset="0"
+          >
+            <BarChart
+              height="320px"
+              name="bar1"
+              :other-option="otherOption"
+              :series-option="seriesOption"
+              :chart-data="chartData"
             />
           </el-col>
-          <el-col :span="6">
+          <el-col
+            :span="6"
+            :lg="{span:6,offset:1}"
+            :md="{span:6,offset:0}"
+            :sm="{span:14,offset:5}"
+            :xs="{span:18,offset:3}"
+            :offset="0"
+          >
             <div class="right_rank">
-              <h4>门店{{ title }}排名</h4>
+              <h4 class="rank_title">门店{{ title }}排名</h4>
               <ul>
                 <li>
                   <span class="rank_index">1</span>
@@ -136,56 +160,25 @@
 
 </template>
 <script>
-import * as echarts from 'echarts'
+import BarChart from '../components/BarChart'
 import countTo from 'vue-count-to'
 import dayjs from 'dayjs'
 export default {
   name: 'Sale',
   components: {
+    BarChart,
     countTo
   },
   data () {
     return {
       date: [],
       activeName: 'sale',
-      charts: null,
+      chart: null,
       sale: [180, 52, 200, 334, 390, 330, 220, 130, 49, 120, 122, 290],
-      visit: [450, 352, 520, 634, 890, 530, 420, 330, 149, 200, 300, 500]
-    }
-  },
-  computed: {
-    title () {
-      return this.activeName === 'sale' ? '销售额' : '访问量'
-    }
-  },
-  mounted () {
-    this.charts = echarts.init(this.$refs.charts)
-    this.chartsSetOption()
-  },
-  methods: {
-    handleClick (tab, event) {
-      this.chartsSetOption()
-    },
-    chartsSetOption () {
-      const { title } = this
-      const isSale = title === '销售额'
-      const color = isSale ? '#159781' : '#7a4a85'
-
-      this.charts.setOption({
-        tooltip: {
-          trigger: 'axis',
-          axisPointer: {
-            type: 'shadow'
-          }
-        },
+      visit: [450, 352, 520, 634, 890, 530, 420, 330, 149, 200, 300, 500],
+      otherOption: {
         title: {
-          text: `${title}趋势`
-        },
-        grid: {
-          left: '3%',
-          right: '4%',
-          bottom: '3%',
-          containLabel: true
+          text: '销售额趋势'
         },
         xAxis: [
           {
@@ -199,18 +192,56 @@ export default {
         yAxis: [
           {
             type: 'value'
+          }],
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: {
+            type: 'shadow'
           }
-        ],
-        series: [
-          {
-            name: title,
-            type: 'bar',
-            barWidth: '60%',
-            data: this[`${this.activeName}`],
-            color
-          }
-        ]
-      })
+        },
+        grid: {
+          top: '15%',
+          left: '3%',
+          right: '4%',
+          containLabel: true
+        }
+      },
+      seriesOption: [{
+        name: '访问量',
+        type: 'bar',
+        barWidth: '65%',
+        color: '#159781'
+      }],
+      chartData: this.sale
+    }
+  },
+  computed: {
+    title () {
+      return this.activeName === 'sale' ? '销售额' : '访问量'
+    },
+    color () {
+      return this.activeName === 'sale' ? '#159781' : '#7a4a85'
+    }
+  },
+  mounted () {
+    this.chartsSetOption()
+  },
+  methods: {
+    handleClick (tab, event) {
+      this.chartsSetOption()
+    },
+    chartsSetOption () {
+      const { title } = this
+      this.chartData = this.activeName === 'sale' ? this.sale : this.visit
+      this.otherOption = {
+        title: {
+          text: `${title}趋势`
+        }
+      }
+      this.seriesOption = [{
+        name: title,
+        color: this.color
+      }]
     },
     // 设置今天
     setDay () {
@@ -264,20 +295,29 @@ export default {
 ::v-deep .el-card__header {
   border: none;
 }
-
-.charts {
-  width: 100%;
-  height: 300px;
+::v-deep .el-card__body {
+  padding: 0 20px;
+}
+.el-row {
+  .el-col {
+    height: 360px;
+  }
 }
 .right_rank {
+  .rank_title {
+    // display: inline-block;
+    margin-top: 0px;
+    text-align: center;
+    padding: 10px;
+  }
   ul {
     list-style: none;
     width: 100%;
-    height: 300px;
+    height: 320px;
     padding: 0;
     margin: 0;
     li {
-      height: 8%;
+      height: 9%;
       margin: 8px 0;
       @include flexJustifySP();
       span {

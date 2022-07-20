@@ -1,12 +1,16 @@
 <template>
-  <div :style="{width,height}" />
+  <div
+    ref="charts"
+    :class="className"
+    :style="{width,height}"
+  />
 </template>
 <script>
 import * as echarts from 'echarts'
 import merge from 'lodash/merge'
 import resize from '../mixins/resize'
 export default {
-  name: 'LineChart',
+  name: 'BarChart',
   mixins: [resize],
   props: {
     className: {
@@ -19,11 +23,14 @@ export default {
     },
     height: {
       type: String,
-      default: '300px'
+      default: ''
     },
     chartData: {
       type: Array,
-      required: true
+      required: true,
+      default () {
+        return []
+      }
     },
     name: {
       type: String,
@@ -33,16 +40,19 @@ export default {
     seriesOption: {
       type: Array,
       default () {
-        return [{ type: 'line', name: this.name }]
+        return [{ type: 'bar', name: this.name }]
       }
     },
     otherOption: {
       type: Object,
       default () {
-        return {}
+        return {
+          title: { text: '' },
+          xAxis: {},
+          yAxis: {}
+        }
       }
     }
-
   },
   data () {
     return {
@@ -58,38 +68,8 @@ export default {
         series: [
           {
             name: this.name,
-            type: 'line',
-            data: this.chartData,
-            // 拐点的样式
-            itemStyle: {
-              opacity: 0
-            },
-            // 线条的 样式
-            lineStyle: {
-              color: 'purple'
-            },
-            // 填充颜色
-            areaStyle: {
-              color: {
-                type: 'linear',
-                x: 0,
-                y: 0,
-                x2: 0,
-                y2: 1,
-                colorStops: [
-                  {
-                    offset: 0,
-                    color: 'purple'
-                  },
-                  {
-                    offset: 1,
-                    color: '#fff'
-                  }
-                ]
-              }
-            },
-            // 圆润的折线
-            smooth: true
+            type: 'bar',
+            data: this.chartData
           }
         ],
         grid: {
@@ -97,13 +77,18 @@ export default {
           top: 0,
           right: 0,
           bottom: 0
-        }
+        },
+        tooltip: {}
       }
     }
   },
   computed: {
     seriesObj () {
-      return { series: this.seriesOption }
+      const { seriesOption } = this
+      seriesOption[0].name = this.name
+      seriesOption[0].data = this.chartData
+      console.log('seriesOption改变了', this.name)
+      return { series: seriesOption }
     },
     newOption () {
       const { seriesObj, otherOption } = this
@@ -111,7 +96,7 @@ export default {
     }
   },
   watch: {
-    chartOption: {
+    newOption: {
       handler () {
         this.updateChart()
       }
@@ -130,6 +115,5 @@ export default {
     }
   }
 }
+
 </script>
-<style>
-</style>

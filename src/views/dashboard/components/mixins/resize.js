@@ -8,18 +8,14 @@ export default {
       $_echartsInit: null
     }
   },
-  // computed: {
-  //   myChart() {
-  //     return $_echarts.init(this.$refs.myChart)
+  // watch: {
+  //   chartData: {
+  //     handler(val) {
+  //       console.log('chartData改变')
+  //       val && this.updateChart()
+  //     }
   //   }
   // },
-  watch: {
-    chartData: {
-      handler(val) {
-        val && this.$_initChart()
-      }
-    }
-  },
   mounted() {
     this.$_myChart = $_echarts.init(this.$el)
     // 定义并保存更新图表的函数
@@ -29,7 +25,6 @@ export default {
       this.$_myChart.resize()
     }, 100)
     this.$_initResizeHandler()
-    this.$_myChart.showLoading()
     this.initChart()
   },
   /*
@@ -43,12 +38,19 @@ export default {
     initChart() {
       this.$_initChart()
     },
+    updateChart() {
+      this.$_updateChart()
+    },
     destroyChart() {
       this.$_destroyChart()
     },
     $_initChart() {
-      this.$_myChart.setOption(this.chartOption)
+      this.$_myChart.showLoading()
+      this.$_myChart.setOption(this.getOption(), true)
       this.$_myChart.hideLoading()
+    },
+    $_updateChart() {
+      this.$_myChart.setOption(this.newOption)
     },
     /* 销毁chart */
     $_destroyChart() {
