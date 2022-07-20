@@ -5,11 +5,12 @@
         :span="6"
         :md="6"
         :sm="12"
+        :xs="12"
       >
         <el-card>
           <Detail
             title="总销售额"
-            count="125654"
+            :count="125654"
             :is-money="true"
           >
             <template slot="charts">
@@ -60,6 +61,7 @@
         :span="6"
         :md="6"
         :sm="12"
+        :xs="12"
       >
         <el-card>
           <Detail
@@ -83,6 +85,7 @@
         :span="6"
         :md="6"
         :sm="12"
+        :xs="12"
       >
         <el-card>
           <Detail
@@ -107,6 +110,7 @@
         :span="6"
         :md="6"
         :sm="12"
+        :xs="12"
       >
         <el-card>
           <Detail

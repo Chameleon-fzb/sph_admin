@@ -29,10 +29,24 @@
             />
 
           </el-row> -->
-          <span @click="setDay">今日</span>
-          <span @click="setWeek">本周</span>
-          <span @click="setMonth">本月</span>
-          <span @click="setYear">本年</span>
+          <div class="setDate hidden-sm-and-down">
+            <span @click="setDay">今日</span>
+            <span @click="setWeek">本周</span>
+            <span @click="setMonth">本月</span>
+            <span @click="setYear">本年</span>
+          </div>
+          <el-dropdown
+            class="hidden-md-and-up"
+            @command="handleCommand"
+          >
+            <span class="el-dropdown-link el-icon-more" />
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item command="setDay">今日</el-dropdown-item>
+              <el-dropdown-item command="setWeek">本周</el-dropdown-item>
+              <el-dropdown-item command="setMonth">本月</el-dropdown-item>
+              <el-dropdown-item command="setYear">本年</el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
           <el-date-picker
             v-model="date"
             value-format="yyyy-MM-dd"
@@ -50,7 +64,7 @@
             :span="18"
             :lg="{span:15,offset:1}"
             :md="{span:16,offset:1}"
-            :sm="{span:18,offset:3}"
+            :sm="{span:20,offset:3}"
             :xs="{span:24,offset:0}"
             :offset="0"
           >
@@ -160,6 +174,7 @@
 
 </template>
 <script>
+import 'element-ui/lib/theme-chalk/display.css'
 import BarChart from '../components/BarChart'
 import countTo from 'vue-count-to'
 import dayjs from 'dayjs'
@@ -253,14 +268,17 @@ export default {
       this.date = [weekStart, weekEnd]
     },
     setMonth () {
-      const monthStart = dayjs().startOf().format('YYYY-MM-DD')
-      const monthEnd = dayjs().endOf().format('YYYY-MM-DD')
+      const monthStart = dayjs().startOf('month').format('YYYY-MM-DD')
+      const monthEnd = dayjs().endOf('month').format('YYYY-MM-DD')
       this.date = [monthStart, monthEnd]
     },
     setYear () {
       const yearStart = dayjs().startOf('year').format('YYYY-MM-DD')
       const yearEnd = dayjs().endOf('year').format('YYYY-MM-DD')
       this.date = [yearStart, yearEnd]
+    },
+    handleCommand (command) {
+      this[`${command}`]()
     }
   }
 }
@@ -283,10 +301,20 @@ export default {
     .right_header {
       position: absolute;
       right: 0px;
-      span {
-        margin-right: 28px;
-        font-size: 14px;
-        cursor: pointer;
+      .setDate {
+        display: inline-block;
+        margin-right: 10px;
+        span {
+          margin-right: 28px;
+          font-size: 14px;
+          cursor: pointer;
+        }
+      }
+      .el-dropdown {
+        margin-right: 10px;
+        .el-dropdown-link {
+          font-size: 16px;
+        }
       }
     }
   }
@@ -304,7 +332,6 @@ export default {
 }
 .right_rank {
   .rank_title {
-    // display: inline-block;
     margin-top: 0px;
     text-align: center;
     padding: 10px;
