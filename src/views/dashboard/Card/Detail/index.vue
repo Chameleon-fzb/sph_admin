@@ -22,7 +22,7 @@
     <div class="card-content">
       <countTo
         :start-val="0"
-        :end-val="parseInt(count)"
+        :end-val="count"
         :duration="2000"
         :prefix="isMoney ? '￥ ' : ''"
         :suffix="isPercent? ' %' :''"

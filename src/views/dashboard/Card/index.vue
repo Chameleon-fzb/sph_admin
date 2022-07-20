@@ -64,7 +64,7 @@
         <el-card>
           <Detail
             title="访问量"
-            count="99469"
+            :count="99469"
           > <template slot="charts">
               <!-- <LineChart /> -->
               <LineChart
@@ -87,7 +87,7 @@
         <el-card>
           <Detail
             title="支付笔数"
-            count="12346"
+            :count="12346"
           >
             <template slot="charts">
               <BarChart
@@ -111,7 +111,7 @@
         <el-card>
           <Detail
             title="运营活动效果"
-            count="78"
+            :count="78"
             :is-percent="true"
           >
             <template slot="charts">
