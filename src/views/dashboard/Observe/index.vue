@@ -1,10 +1,22 @@
 <template>
   <div>
     <el-row>
-      <el-col :span="12">
+      <el-col
+        :span="12"
+        :lg="12"
+        :md="24"
+        :sm="24"
+        :xs="24"
+      >
         <Search />
       </el-col>
-      <el-col :span="12">
+      <el-col
+        :span="12"
+        :lg="12"
+        :md="24"
+        :sm="24"
+        :xs="24"
+      >
         <Category />
       </el-col>
     </el-row>
