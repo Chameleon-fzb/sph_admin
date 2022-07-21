@@ -156,7 +156,6 @@
                   <span class="rank_index">7</span>
                   <span class="rank_name">汉堡王</span>
                   <span class="rank_num">
-
                     <countTo
                       :start-val="0"
                       :end-val="1342141"
@@ -171,7 +170,6 @@
       </div>
     </el-card>
   </div>
-
 </template>
 <script>
 import 'element-ui/lib/theme-chalk/display.css'
@@ -195,19 +193,16 @@ export default {
         title: {
           text: '销售额趋势'
         },
-        xAxis: [
-          {
-            type: 'category',
-            data: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
-            axisTick: {
-              alignWithLabel: true
-            }
+        xAxis: {
+          type: 'category',
+          data: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
+          axisTick: {
+            alignWithLabel: true
           }
-        ],
-        yAxis: [
-          {
-            type: 'value'
-          }],
+        },
+        yAxis: {
+          type: 'value'
+        },
         tooltip: {
           trigger: 'axis',
           axisPointer: {
@@ -239,7 +234,7 @@ export default {
     }
   },
   mounted () {
-    this.chartsSetOption()
+    this.chartData = this.sale
   },
   methods: {
     handleClick (tab, event) {

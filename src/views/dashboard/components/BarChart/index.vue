@@ -58,10 +58,10 @@ export default {
       chart: null,
       option: {
         xAxis: {
-          show: false
+          // show: false
         },
         yAxis: {
-          show: false
+          // show: false
         },
         series: [
           {

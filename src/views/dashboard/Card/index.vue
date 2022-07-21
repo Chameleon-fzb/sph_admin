@@ -163,6 +163,7 @@
                     p-id="3405"
                     fill="#d81e06"
                   />
+
                 </svg>
               </span>
             </template>
@@ -191,7 +192,11 @@ export default {
         chartData: [15, 45, 23, 50, 30, 45, 67, 34, 25, 28, 70],
         otherOption: {
           xAxis: {
+            show: false,
             type: 'category'
+          },
+          yAxis: {
+            show: false
           }
         }
 
@@ -201,7 +206,6 @@ export default {
         otherOption: {
           xAxis: {
             show: false,
-            type: '',
             minx: 0,
             max: 100
           },
