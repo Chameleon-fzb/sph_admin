@@ -5,7 +5,7 @@
         :span="6"
         :md="6"
         :sm="12"
-        :xs="12"
+        :xs="24"
       >
         <el-card>
           <Detail
@@ -61,7 +61,7 @@
         :span="6"
         :md="6"
         :sm="12"
-        :xs="12"
+        :xs="24"
       >
         <el-card>
           <Detail
@@ -85,7 +85,7 @@
         :span="6"
         :md="6"
         :sm="12"
-        :xs="12"
+        :xs="24"
       >
         <el-card>
           <Detail
@@ -110,7 +110,7 @@
         :span="6"
         :md="6"
         :sm="12"
-        :xs="12"
+        :xs="24"
       >
         <el-card>
           <Detail

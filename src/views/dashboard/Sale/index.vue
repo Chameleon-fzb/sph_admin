@@ -22,13 +22,6 @@
         </el-tabs>
         <!-- 右侧 -->
         <div class="right_header">
-          <!-- <el-row>
-            <el-col
-              :span="24"
-              :xs-offset="12"
-            />
-
-          </el-row> -->
           <div class="setDate hidden-sm-and-down">
             <span @click="setDay">今日</span>
             <span @click="setWeek">本周</span>
@@ -64,7 +57,7 @@
             :span="18"
             :lg="{span:15,offset:1}"
             :md="{span:16,offset:1}"
-            :sm="{span:20,offset:3}"
+            :sm="{span:18,offset:3}"
             :xs="{span:24,offset:0}"
             :offset="0"
           >
