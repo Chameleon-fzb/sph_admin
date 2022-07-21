@@ -6,7 +6,7 @@
   />
 </template>
 <script>
-import * as echarts from 'echarts'
+// import * as echarts from 'echarts'
 import merge from 'lodash/merge'
 import resize from '../mixins/resize'
 export default {
@@ -99,7 +99,8 @@ export default {
     }
   },
   mounted () {
-    this.chart = echarts.init(this.$el)
+    // this.chart = echarts.init(this.$el)
+    this.chart = this.$_myChart
   },
   beforeDestroy () {
     this.chart = null
