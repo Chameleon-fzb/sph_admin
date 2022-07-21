@@ -5,17 +5,10 @@ export default {
     return {
       $_myChart: null,
       $_resizeHandler: null,
-      $_echartsInit: null
+      $_echartsInit: null,
+      $_sidebarElm: null
     }
   },
-  // watch: {
-  //   chartData: {
-  //     handler(val) {
-  //       console.log('chartData改变')
-  //       val && this.updateChart()
-  //     }
-  //   }
-  // },
   mounted() {
     this.$_myChart = $_echarts.init(this.$el)
     // 定义并保存更新图表的函数
@@ -24,6 +17,7 @@ export default {
       // 使用echarts的组件
       this.$_myChart.resize()
     }, 100)
+    this.$_initSidebarResizeEvent()
     this.$_initResizeHandler()
     this.initChart()
   },
@@ -32,6 +26,7 @@ export default {
   */
   beforeDestroy() {
     this.$_destroyResizeEvent()
+    this.$_destroySidebarResizeEvent()
     this.destroyChart()
   },
   methods: {
@@ -70,6 +65,35 @@ export default {
     */
     $_destroyResizeEvent() {
       window.removeEventListener('resize', this.$_resizeHandler)
+    },
+    /** 滑块导致的宽度改变*/
+    $_initSidebarResizeEvent() {
+      this.$_sidebarElm =
+        document.getElementsByClassName('sidebar-container')[0]
+      this.$_sidebarElm &&
+        this.$_sidebarElm.addEventListener(
+          'transitionend',
+          this.$_sidebarResizeHandler
+        )
+    },
+    /*
+    处理sidebar绑定尺寸变化的监听回调 ==> 更新图表
+    */
+    $_sidebarResizeHandler(e) {
+      if (e.propertyName === 'width') {
+        // 是width属性变化才处理
+        this.$_resizeHandler()
+      }
+    },
+    /*
+    解绑sidebar的尺寸变化的事件监听
+    */
+    $_destroySidebarResizeEvent() {
+      this.$_sidebarElm &&
+        this.$_sidebarElm.removeEventListener(
+          'transitionend',
+          this.$_sidebarResizeHandler
+        )
     }
   }
 }
