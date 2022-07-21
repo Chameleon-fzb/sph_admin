@@ -86,10 +86,7 @@
           type="index"
           width="80"
         />
-        <el-table-column
-          label="热搜关键字"
-          width="180"
-        />
+        <el-table-column label="热搜关键字" />
         <el-table-column
           label="用户数"
           sortable

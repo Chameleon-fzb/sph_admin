@@ -34,7 +34,7 @@
         :other-option="otherOption"
       />
     </div>
-    <div class="charts_footer" />
+    <!-- <div class="charts_footer" /> -->
   </div>
 
 </template>
