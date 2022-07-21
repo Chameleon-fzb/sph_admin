@@ -84,7 +84,6 @@ export default {
       const { seriesOption } = this
       seriesOption[0].name = this.name
       seriesOption[0].data = this.chartData
-      console.log('seriesOption改变了', this.name)
       return { series: seriesOption }
     },
     newOption () {
