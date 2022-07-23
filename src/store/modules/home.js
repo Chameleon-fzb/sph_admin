@@ -24,11 +24,11 @@ const mutations = {
   }
 }
 const getters = {
-  saleData: (state) => state.saleInfo.saleData,
-  saleXAxisData: (state) => state.saleInfo.xAxisData,
-  visitData: (state) => state.visitInfo.visitData,
-  visitXAxisData: (state) => state.visitInfo.xAxisData,
-  saleClass: (state) => state.saleInfo.saleClass
+  saleData: (state) => state.saleInfo.saleData || [],
+  saleXAxisData: (state) => state.saleInfo.xAxisData || [],
+  visitData: (state) => state.visitInfo.visitData || [],
+  visitXAxisData: (state) => state.visitInfo.xAxisData || [],
+  saleClass: (state) => state.saleInfo.saleClass || []
 }
 
 export default {

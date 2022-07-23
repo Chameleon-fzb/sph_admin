@@ -21,12 +21,13 @@
       name="pie1"
       :other-option="otherOption"
       :series-option="seriesOption"
-      :chart-data="chartData"
+      :chart-data="saleClass"
       :events="event"
     />
   </el-card>
 </template>
 <script>
+import { mapGetters } from 'vuex'
 // import * as echarts from 'echarts'
 import PieChart from '../../components/PieChart'
 export default {
@@ -93,6 +94,9 @@ export default {
         }
       }
     }
+  },
+  computed: {
+    ...mapGetters(['saleClass'])
   }
 }
 </script>
