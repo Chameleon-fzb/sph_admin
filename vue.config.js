@@ -36,7 +36,7 @@ module.exports = {
       warnings: false,
       errors: true
     },
-    // before: require('./mock/mock-server.js') //禁用mock数据
+    // before: require('./mock/mock-server.js'), // 禁用mock数据
     // 代理的配置
     proxy: {
       '/dev-api': {
