@@ -80,78 +80,16 @@
             <div class="right_rank">
               <h4 class="rank_title">门店{{ title }}排名</h4>
               <ul>
-                <li>
-                  <span class="rank_index">1</span>
-                  <span class="rank_name">蛙小侠</span>
+                <li
+                  v-for="(item,i) in rankList"
+                  :key="item.id"
+                >
+                  <span class="rank_index">{{ i+1 }}</span>
+                  <span class="rank_name">{{ item.name }}</span>
                   <span class="rank_num">
                     <countTo
                       :start-val="0"
-                      :end-val="2342801"
-                      :duration="2000"
-                    />
-                  </span>
-                </li>
-                <li>
-                  <span class="rank_index">2</span>
-                  <span class="rank_name">肯德基</span>
-                  <span class="rank_num">
-                    <countTo
-                      :start-val="0"
-                      :end-val="2100249"
-                      :duration="2000"
-                    />
-                  </span>
-                </li>
-                <li>
-                  <span class="rank_index">3</span>
-                  <span class="rank_name">麦当劳</span>
-                  <span class="rank_num">
-                    <countTo
-                      :start-val="0"
-                      :end-val="1942647"
-                      :duration="2000"
-                    />
-                  </span>
-                </li>
-                <li>
-                  <span class="rank_index">4</span>
-                  <span class="rank_name">海底捞</span>
-                  <span class="rank_num">
-                    <countTo
-                      :start-val="0"
-                      :end-val="1742454"
-                      :duration="2000"
-                    />
-                  </span>
-                </li>
-                <li><span class="rank_index">5</span>
-                  <span class="rank_name">椒王火锅</span>
-                  <span class="rank_num">
-                    <countTo
-                      :start-val="0"
-                      :end-val="1502343"
-                      :duration="2000"
-                    />
-                  </span>
-                </li>
-                <li>
-                  <span class="rank_index">6</span>
-                  <span class="rank_name">真功夫</span>
-                  <span class="rank_num">
-                    <countTo
-                      :start-val="0"
-                      :end-val="1462242"
-                      :duration="2000"
-                    />
-                  </span>
-                </li>
-                <li>
-                  <span class="rank_index">7</span>
-                  <span class="rank_name">汉堡王</span>
-                  <span class="rank_num">
-                    <countTo
-                      :start-val="0"
-                      :end-val="1342141"
+                      :end-val="item[`${activeName}Num`]"
                       :duration="2000"
                     />
                   </span>
@@ -169,6 +107,7 @@ import 'element-ui/lib/theme-chalk/display.css'
 import BarChart from '../components/BarChart'
 import countTo from 'vue-count-to'
 import dayjs from 'dayjs'
+import { mapGetters, mapState } from 'vuex'
 export default {
   name: 'Sale',
   components: {
@@ -179,16 +118,13 @@ export default {
     return {
       date: [],
       activeName: 'sale',
-      chart: null,
-      sale: [180, 52, 200, 334, 390, 330, 220, 130, 49, 120, 122, 290],
-      visit: [450, 352, 520, 634, 890, 530, 420, 330, 149, 200, 300, 500],
       otherOption: {
         title: {
           text: '销售额趋势'
         },
         xAxis: {
           type: 'category',
-          data: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
+          data: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
           axisTick: {
             alignWithLabel: true
           }
@@ -214,35 +150,52 @@ export default {
         type: 'bar',
         barWidth: '65%',
         color: '#159781'
-      }],
-      chartData: this.sale
+      }]
     }
   },
   computed: {
+    isSale () {
+      return this.activeName === 'sale'
+    },
     title () {
-      return this.activeName === 'sale' ? '销售额' : '访问量'
+      return this.isSale ? '销售额' : '访问量'
     },
     color () {
-      return this.activeName === 'sale' ? '#159781' : '#7a4a85'
+      return this.isSale ? '#159781' : '#7a4a85'
+    },
+    ...mapState({
+      saleInfo: state => state.home.saleInfo,
+      visitInfo: state => state.home.visitInfo,
+      rankInfo: state => state.home.rankInfo
+    }),
+    ...mapGetters(['saleData', 'visitData', 'saleXAxisData', 'visitXAxisData']),
+    chartData () {
+      return this.isSale ? this.saleData : this.visitData
+    },
+    xAxisData () {
+      return this.isSale ? this.saleXAxisData : this.visitXAxisData
+    },
+    rankList () {
+      const { activeName, rankInfo } = this
+      return Array.from(rankInfo).sort((a, b) => { return b[`${activeName}Num`] - a[`${activeName}Num`] })
     }
-  },
-  mounted () {
-    this.chartData = this.sale
   },
   methods: {
     handleClick (tab, event) {
       this.chartsSetOption()
     },
     chartsSetOption () {
-      const { title } = this
-      this.chartData = this.activeName === 'sale' ? this.sale : this.visit
+      const { title, color, xAxisData } = this
       this.otherOption = {
         title: {
           text: `${title}趋势`
+        },
+        xAxis: {
+          data: xAxisData
         }
       }
       this.seriesOption = [{
-        color: this.color
+        color
       }]
     },
     // 设置今天
@@ -342,6 +295,9 @@ export default {
         width: 20px;
         height: 20px;
         font-size: 14px;
+      }
+      .rank_num {
+        width: 76px;
       }
     }
     li:nth-child(-n + 3) .rank_index {

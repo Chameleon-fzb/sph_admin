@@ -18,15 +18,22 @@ const actions = {
 }
 const mutations = {
   RECEIVE_HOME_LIST(state, homeList) {
-    console.log(homeList.saleInfo)
     Object.keys(state).forEach((key) => {
       state[key] = homeList[key]
     })
   }
 }
+const getters = {
+  saleData: (state) => state.saleInfo.saleData,
+  saleXAxisData: (state) => state.saleInfo.xAxisData,
+  visitData: (state) => state.visitInfo.visitData,
+  visitXAxisData: (state) => state.visitInfo.xAxisData,
+  saleClass: (state) => state.saleInfo.saleClass
+}
 
 export default {
   state,
   mutations,
-  actions
+  actions,
+  getters
 }

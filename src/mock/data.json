@@ -15,7 +15,20 @@
       122,
       290
     ],
-    "xAxisType": "year",
+    "xAxisData": [
+      "1月",
+      "2月",
+      "3月",
+      "4月",
+      "5月",
+      "6月",
+      "7月",
+      "8月",
+      "9月",
+      "10月",
+      "11月",
+      "12月"
+    ],
     "daySaleData": 14677,
     "week_on_year": 0.5667,
     "day_on_year": 0.0982,
@@ -85,7 +98,20 @@
       300,
       500
     ],
-    "xAxisType": "year",
+    "xAxisData": [
+      "1月",
+      "2月",
+      "3月",
+      "4月",
+      "5月",
+      "6月",
+      "7月",
+      "8月",
+      "9月",
+      "10月",
+      "11月",
+      "12月"
+    ],
     "daySaleData": 1677
   },
   "paymentInfo": {
@@ -115,43 +141,43 @@
       "id": 1,
       "name": "蛙小侠",
       "saleNum": 2342801,
-      "visit": 13607
+      "visitNum": 13607
     },
     {
       "id": 2,
       "name": "肯德基",
       "saleNum": 2112801,
-      "visit": 13607
+      "visitNum": 13607
     },
     {
       "id": 3,
       "name": "麦当劳",
       "saleNum": 1945811,
-      "visit": 14668
+      "visitNum": 14668
     },
     {
       "id": 4,
       "name": "海底捞",
       "saleNum": 1742451,
-      "visit": 13607
+      "visitNum": 13607
     },
     {
       "id": 5,
       "name": "椒王火锅",
       "saleNum": 2340801,
-      "visit": 8607
+      "visitNum": 8607
     },
     {
       "id": 6,
       "name": "真功夫",
       "saleNum": 1342801,
-      "visit": 7807
+      "visitNum": 7807
     },
     {
       "id": 7,
       "name": "汉堡王",
       "saleNum": 1345141,
-      "visit": 9907
+      "visitNum": 9907
     }
   ],
   "search": {
