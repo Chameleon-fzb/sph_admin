@@ -28,7 +28,10 @@ const getters = {
   saleXAxisData: (state) => state.saleInfo.xAxisData || [],
   visitData: (state) => state.visitInfo.visitData || [],
   visitXAxisData: (state) => state.visitInfo.xAxisData || [],
-  saleClass: (state) => state.saleInfo.saleClass || []
+  saleClass: (state) => state.saleInfo.saleClass || [],
+  searchUser: (state) => state.search.searchUser || {},
+  averageSearch: (state) => state.search.averageSearch || [],
+  searchTableData: (state) => state.search.searchTableData || []
 }
 
 export default {

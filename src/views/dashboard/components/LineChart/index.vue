@@ -103,7 +103,10 @@ export default {
   },
   computed: {
     seriesObj () {
-      return { series: this.seriesOption }
+      const { seriesOption } = this
+      seriesOption[0].name = this.name
+      seriesOption[0].data = this.chartData
+      return { series: seriesOption }
     },
     newOption () {
       const { seriesObj, otherOption } = this
@@ -111,7 +114,7 @@ export default {
     }
   },
   watch: {
-    chartOption: {
+    newOption: {
       handler () {
         this.updateChart()
       }

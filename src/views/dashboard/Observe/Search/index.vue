@@ -12,8 +12,6 @@
           <el-dropdown-item>黄金糕</el-dropdown-item>
           <el-dropdown-item>狮子头</el-dropdown-item>
           <el-dropdown-item>螺蛳粉</el-dropdown-item>
-          <el-dropdown-item disabled>双皮奶</el-dropdown-item>
-          <el-dropdown-item divided>蚵仔煎</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
 
@@ -23,12 +21,12 @@
         <el-col :span="12">
           <SearchChart
             title="搜索用户数"
-            num="124465"
-            :chart-data="searchData.searchUsers"
+            :num="searchUser.searchNum||0"
+            :chart-data="searchUserData"
             name="searchChart_1"
           >
             <template slot="main_svg">
-              17.1
+              {{ searchUser.day_on_year|formatPercentage }}
               <svg
                 t="1657609772022"
                 class="icon"
@@ -50,12 +48,12 @@
         <el-col :span="12">
           <SearchChart
             title="人均搜索次数"
-            num="2.7"
-            :chart-data="searchData.averageSearch"
+            :num="averageSearch.averageNum||0"
+            :chart-data="averageSearchData"
             name="searchChart_2"
           >
             <template slot="main_svg">
-              20.3
+              {{ averageSearch.day_on_year|formatPercentage }}
               <svg
                 t="1657609905047"
                 class="icon"
@@ -80,21 +78,30 @@
         :data="tableData"
         style="width: 100%"
         border
+        max-height="108px"
       >
         <el-table-column
           label="排名"
-          type="index"
           width="80"
+          prop="index"
         />
-        <el-table-column label="热搜关键字" />
+        <el-table-column
+          label="热搜关键字"
+          prop="name"
+        />
         <el-table-column
           label="用户数"
           sortable
+          prop="userNum"
         />
         <el-table-column
           label="周涨幅"
           sortable
-        />
+        >
+          <template slot-scope="{row}">
+            {{ row.weekly_increase|formatPercentage }}
+          </template>
+        </el-table-column>
       </el-table>
       <el-pagination
         align="center"
@@ -107,32 +114,66 @@
   </el-card>
 </template>
 <script>
+import { mapGetters } from 'vuex'
 import SearchChart from './SearchChart'
 export default {
   name: 'Search',
   components: {
     SearchChart
   },
+  filters: {
+    formatPercentage (num) {
+      return num * 100 + '%'
+    }
+  },
   data () {
     return {
-      tableData: [{}],
+      tableData: [],
       pagination: {
         page: 1,
-        totalNum: 100,
+        totalNum: 0,
         limit: 1
-      },
-      searchData: {
-        searchUsers: [189, 290, 400, 200, 300, 108, 408, 560, 390, 402, 207, 340, 689],
-        averageSearch: [19, 29, 10, 30, 38, 28, 38, 18, 9, 4, 20, 40, 19]
-
+      }
+    }
+  },
+  computed: {
+    ...mapGetters(['searchUser', 'averageSearch', 'searchTableData']),
+    searchUserData () {
+      return this.searchUser.data || []
+    },
+    averageSearchData () {
+      return this.averageSearch.data || []
+    },
+    rankTableData () {
+      const { searchTableData } = this
+      return Array.from(searchTableData).sort((a, b) => {
+        return b.userNum - a.userNum
+      })
+    },
+    rankData () {
+      return { page: this.pagination.page, data: this.rankTableData[this.pagination.page] }
+    }
+  },
+  watch: {
+    searchTableData: {
+      handler (value) {
+        this.pagination.totalNum = value.length
+      }
+    },
+    rankData: {
+      handler (val) {
+        this.changePage(val.page)
       }
     }
   },
   methods: {
-    formatter (row, column) {
-      return row.address
+    changePage (page = 1) {
+      const tableData = { ...this.rankTableData[page - 1] } || {}
+      tableData.index = page
+      this.tableData = [tableData]
     }
   }
+
 }
 </script>
 <style lang="scss" scoped>

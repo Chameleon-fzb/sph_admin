@@ -51,7 +51,7 @@ export default {
       required: true
     },
     num: {
-      type: String,
+      type: Number,
       required: true
     },
     chartData: {

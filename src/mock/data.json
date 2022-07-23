@@ -222,7 +222,10 @@
     "searchTableData|50-100": [
       {
         "id|+1": 1,
-        "name": "@cname(1,5)"
+        "name": "@cname(1,8)",
+        "rank|+1": 1,
+        "userNum|1000-1": 1000,
+        "weekly_increase|0.4": 0.0
       }
     ]
   }
