@@ -22,6 +22,9 @@ export default {
     ...mapGetters([
       'name'
     ])
+  },
+  created () {
+    this.$store.dispatch('getHomeList')
   }
 }
 </script>
