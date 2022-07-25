@@ -63,7 +63,7 @@ export default {
   }
 }
 .card-content {
-  font-size: 30px;
+  font-size: 26px;
   padding: 10px 0;
 }
 .card-charts {

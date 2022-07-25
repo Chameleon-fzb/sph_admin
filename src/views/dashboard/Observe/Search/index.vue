@@ -121,11 +121,6 @@ export default {
   components: {
     SearchChart
   },
-  filters: {
-    formatPercentage (num) {
-      return num * 100 + '%'
-    }
-  },
   data () {
     return {
       tableData: [],

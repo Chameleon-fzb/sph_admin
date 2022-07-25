@@ -10,11 +10,11 @@
         <el-card>
           <Detail
             title="总销售额"
-            :count="125654"
+            :count="saleInfo.totalSale||0"
             :is-money="true"
           >
             <template slot="charts">
-              <span>周同比&nbsp;&nbsp;56.67%
+              <span>周同比&nbsp;&nbsp;{{ saleInfo.week_on_year|formatPercentage }}
                 <svg
                   t="1657609772022"
                   class="icon"
@@ -31,7 +31,7 @@
                     fill="#1aaa1a"
                   />
                 </svg></span>
-              <span>日同比&nbsp;&nbsp;19.99%
+              <span>日同比&nbsp;&nbsp;{{ saleInfo.day_on_year|formatPercentage }}
                 <svg
                   t="1657609905047"
                   class="icon"
@@ -52,7 +52,7 @@
               </span>
             </template>
             <template slot="footer">
-              日销售额￥ 14677
+              日销售额￥ {{ saleInfo.daySaleData }}
             </template>
           </Detail>
         </el-card>
@@ -66,17 +66,17 @@
         <el-card>
           <Detail
             title="访问量"
-            :count="99469"
+            :count="visitInfo.totalVisit"
           > <template slot="charts">
               <!-- <LineChart /> -->
               <LineChart
                 height="100%"
-                :chart-data="chartData1"
+                :chart-data="visitData"
                 name="card2"
               />
             </template>
             <template slot="footer">
-              日访问量 1677
+              日访问量 {{ visitInfo.daySaleData }}
             </template>
           </Detail>
         </el-card>
@@ -90,18 +90,18 @@
         <el-card>
           <Detail
             title="支付笔数"
-            :count="12346"
+            :count="paymentInfo.totalPayment"
           >
             <template slot="charts">
               <BarChart
                 height="100%"
-                :chart-data="card3.chartData"
+                :chart-data="paymentData"
                 :other-option="card3.otherOption"
                 name="card3"
               />
             </template>
             <template slot="footer">
-              转化率 67%
+              转化率 {{ paymentInfo.ConversionRate|formatPercentage }}
             </template>
           </Detail>
         </el-card>
@@ -123,14 +123,14 @@
               <BarChart
                 name="progress"
                 height="100%"
-                :chart-data="progress.chartData"
+                :chart-data="progressData"
                 :other-option="progress.otherOption"
                 :series-option="progress.seriesOption"
               />
               <!-- <linechart/> -->
             </template>
             <template slot="footer">
-              <span>周同比&nbsp;&nbsp;12.67%
+              <span>周同比&nbsp;&nbsp;{{ activityEffect.week_on_year|formatPercentage }}
                 <svg
                   t="1657609772022"
                   class="icon"
@@ -147,7 +147,7 @@
                     fill="#1aaa1a"
                   />
                 </svg></span>
-              <span>日同比&nbsp;&nbsp;11.99%
+              <span>日同比&nbsp;&nbsp;{{ activityEffect.day_on_year |formatPercentage }}
                 <svg
                   t="1657609905047"
                   class="icon"
@@ -163,7 +163,6 @@
                     p-id="3405"
                     fill="#d81e06"
                   />
-
                 </svg>
               </span>
             </template>
@@ -177,19 +176,18 @@
 import LineChart from '../components/LineChart'
 import BarChart from '../components/BarChart'
 import Detail from './Detail'
+import { mapState } from 'vuex'
 export default {
   name: 'Card',
   components: {
     Detail,
     LineChart,
     BarChart
-    // ProgressChart
+
   },
   data () {
     return {
-      chartData1: [10, 45, 23, 50, 30, 45, 67, 89, 45, 57, 23, 34, 25, 28, 70],
       card3: {
-        chartData: [15, 45, 23, 50, 30, 45, 67, 34, 25, 28, 70],
         otherOption: {
           xAxis: {
             show: false,
@@ -199,10 +197,8 @@ export default {
             show: false
           }
         }
-
       },
       progress: {
-        chartData: [78],
         otherOption: {
           xAxis: {
             show: false,
@@ -230,6 +226,23 @@ export default {
           }
         ]
       }
+    }
+  },
+  computed: {
+    ...mapState({
+      saleInfo: state => state.home.saleInfo || {},
+      visitInfo: state => state.home.visitInfo || {},
+      paymentInfo: state => state.home.paymentInfo || {},
+      activityEffect: state => state.home.activityEffect || {}
+    }),
+    visitData () {
+      return this.visitInfo.visitData || []
+    },
+    paymentData () {
+      return this.paymentInfo.paymentData
+    },
+    progressData () {
+      return [this.$options.filters.formatPercentage(this.activityEffect.value, true)] || []
     }
   }
 }
