@@ -66,7 +66,7 @@
         <el-card>
           <Detail
             title="访问量"
-            :count="visitInfo.totalVisit"
+            :count="visitInfo.totalVisit||0"
           > <template slot="charts">
               <!-- <LineChart /> -->
               <LineChart
@@ -90,7 +90,7 @@
         <el-card>
           <Detail
             title="支付笔数"
-            :count="paymentInfo.totalPayment"
+            :count="paymentInfo.totalPayment||0"
           >
             <template slot="charts">
               <BarChart
@@ -115,7 +115,7 @@
         <el-card>
           <Detail
             title="运营活动效果"
-            :count="78"
+            :count="progressData[0]"
             :is-percent="true"
           >
             <template slot="charts">
@@ -242,7 +242,7 @@ export default {
       return this.paymentInfo.paymentData
     },
     progressData () {
-      return [this.$options.filters.formatPercentage(this.activityEffect.value, true)] || []
+      return [this.$options.filters.formatPercentage(this.activityEffect.value, true)] || [0]
     }
   }
 }
