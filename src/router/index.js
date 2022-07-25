@@ -24,12 +24,6 @@ import Layout from '@/layout'
     activeMenu: '/example/list'  if set path, the sidebar will highlight the path you set
   }
  */
-
-/**
- * constantRoutes
- * a base page that does not have permission requirements
- * all roles can be accessed
- */
 export const constantRoutes = [
   {
     path: '/login',
@@ -42,7 +36,6 @@ export const constantRoutes = [
     component: () => import('@/views/404'),
     hidden: true
   },
-
   {
     path: '/',
     component: Layout,
@@ -55,8 +48,15 @@ export const constantRoutes = [
         meta: { title: '首页', icon: 'dashboard' }
       }
     ]
-  },
-  // 商品管理相关的路由
+  }
+]
+// 商品管理相关的路由
+/**
+    不是常量路由,
+    根据用户信息进行注册
+  */
+//  异步路由
+export const allAsyncRoutes = [
   {
     path: '/product',
     component: Layout, // 首先展示一级路由
@@ -88,10 +88,11 @@ export const constantRoutes = [
         meta: { title: 'spu管理' }
       }
     ]
-  },
-  // 404 page must be placed at the end !!!
-  { path: '*', redirect: '/404', hidden: true }
+  }
 ]
+// 任意路由 添加路由必须最后一个注册
+// 404 page must be placed at the end !!!
+export const anyRoutes = [{ path: '*', redirect: '/404', hidden: true }]
 
 const createRouter = () =>
   new Router({
