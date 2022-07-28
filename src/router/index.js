@@ -57,6 +57,7 @@ export const constantRoutes = [
   */
 //  异步(权限)路由
 export const allAsyncRoutes = [
+  //  用户权限管理路由
   {
     name: 'Acl',
     path: '/acl',
@@ -103,6 +104,7 @@ export const allAsyncRoutes = [
       }
     ]
   },
+  //  商品权限管理路由
   {
     path: '/product',
     component: Layout, // 首先展示一级路由
@@ -132,6 +134,27 @@ export const allAsyncRoutes = [
         component: () => import('@/views/product/spu/List'),
         name: 'Spu',
         meta: { title: 'spu管理' }
+      }
+    ]
+  },
+  // 测试权限管理路由
+  {
+    path: '/text',
+    component: Layout, // 首先展示一级路由
+    name: 'Text',
+    meta: { title: '测试管理', icon: 'el-icon-magic-stick' },
+    children: [
+      {
+        path: 'text1',
+        component: () => import('@/views/text/text1'),
+        name: 'Text1',
+        meta: { title: '测试1管理' }
+      },
+      {
+        path: 'text2',
+        component: () => import('@/views/text/text2'),
+        name: 'Text2',
+        meta: { title: '测试2管理' }
       }
     ]
   }
