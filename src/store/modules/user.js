@@ -21,13 +21,14 @@ const getDefaultState = () => {
 const filterAsyncRoutes = (allAsyncRoutes, routeNames) => {
   const asyncRoutes = allAsyncRoutes.filter((item) => {
     if (routeNames.includes(item.name)) {
-      if (item.children && item.length) {
+      if (item.children && item.children.length) {
         item.children = filterAsyncRoutes(item.children, routeNames)
       }
       return true
     }
     return false
   })
+  // console.log(asyncRoutes)
   return asyncRoutes
 }
 const state = getDefaultState()
@@ -89,6 +90,8 @@ const actions = {
             return reject('Verification failed, please Login again.')
           }
           const asyncRoutes = filterAsyncRoutes(allAsyncRoutes, data.routes)
+          console.log(data.routes)
+          // console.log(asyncRoutes))
           commit('SET_ROUTES', asyncRoutes)
           commit('SET_USER_INFO', data)
 
