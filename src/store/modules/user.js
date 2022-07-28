@@ -28,7 +28,6 @@ const filterAsyncRoutes = (allAsyncRoutes, routeNames) => {
     }
     return false
   })
-  // console.log(asyncRoutes)
   return asyncRoutes
 }
 const state = getDefaultState()
@@ -87,11 +86,9 @@ const actions = {
           const { data } = response
 
           if (!data) {
-            return reject('Verification failed, please Login again.')
+            return reject('验证失败,请重新登录')
           }
           const asyncRoutes = filterAsyncRoutes(allAsyncRoutes, data.routes)
-          console.log(data.routes)
-          // console.log(asyncRoutes))
           commit('SET_ROUTES', asyncRoutes)
           commit('SET_USER_INFO', data)
 
