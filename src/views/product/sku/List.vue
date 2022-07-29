@@ -205,7 +205,7 @@
                 :key="item.key"
               >
                 <el-image
-                  style="width:100%;height: 100%;"
+                  style="height: 300px"
                   :src="item.imgUrl"
                   fit="cover"
                 />
@@ -326,13 +326,10 @@ export default {
 .el-col {
   margin: 10px;
 }
-
-::v-deep .el-carousel__item:nth-child(2n) {
-  background-color: #99a9bf;
-}
-
-::v-deep .el-carousel__item:nth-child(2n + 1) {
-  background-color: #d3dce6;
+::v-deep .el-carousel__item {
+  background-color: #fdfdfd;
+  display: flex;
+  justify-content: space-evenly;
 }
 ::v-deep .el-carousel__button {
   width: 10px;
