@@ -432,16 +432,18 @@ export default {
     保存或者更新用户
     */
     addOrUpdate () {
-      this.$refs.userForm.validate((valid) => {
+      this.$refs.userForm.validate(async (valid) => {
         if (valid) {
           const { user } = this
           this.loading = true
-          this.$API.user[user.id ? 'update' : 'add'](user).then((result) => {
+          await this.$API.user[user.id ? 'update' : 'add'](user).then((result) => {
             this.loading = false
             this.$message.success('保存成功!')
             this.getUsers(user.id ? this.page : 1)
             this.user = {}
             this.dialogUserVisible = false
+          }).finally(() => {
+            this.loading = false
           })
         }
       })
