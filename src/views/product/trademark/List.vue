@@ -1,6 +1,7 @@
 <template>
   <div>
     <el-button
+      v-if="$HasBtn('btn.Trademark.add')"
       type="primary"
       icon="el-icon-plus"
       @click="showAddDialog"
@@ -103,12 +104,14 @@
       >
         <template slot-scope="{row }">
           <el-button
+            v-if="$HasBtn('btn.Trademark.update')"
             type="warning"
             icon="el-icon-edit"
             size="mini"
             @click="showUpdDialog(row)"
           >修改</el-button>
           <el-button
+            v-if="$HasBtn('btn.Trademark.remove')"
             type="danger"
             icon="el-icon-delete"
             size="mini"

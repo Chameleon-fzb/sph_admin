@@ -30,15 +30,14 @@ Vue.filter('formatPercentage', function (num, isNum) {
   }
   return num * 100 + '%'
 })
-
+import { hasBtnPermission } from './utils/permission'
 // set ElementUI lang to EN
 Vue.use(ElementUI, { locale })
 // 如果想要中文版 element-ui，按如下方式声明
 // Vue.use(ElementUI)
-
 Vue.config.productionTip = false
 Vue.prototype.$API = $API // 挂载接口请求函数
-
+Vue.prototype.$HasBtn = hasBtnPermission
 new Vue({
   el: '#app',
   router,
