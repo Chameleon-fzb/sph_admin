@@ -23,10 +23,12 @@
     <div style="margin-bottom: 20px">
       <!-- 添加与批量添加按钮 -->
       <el-button
+        v-if="$HasBtn('btn.User.add')"
         type="primary"
         @click="showAddUser"
       >添 加</el-button>
       <el-button
+        v-if="$HasBtn('btn.User.remove')"
         type="danger"
         :disabled="selectedIds.length===0"
         @click="removeUsers"
@@ -85,6 +87,7 @@
       >
         <template slot-scope="{row}">
           <el-button
+            v-if="$HasBtn('btn.User.assgin')"
             type="info"
             size="mini"
             icon="el-icon-user-solid"
@@ -92,6 +95,7 @@
             @click="showAssignRole(row)"
           />
           <el-button
+            v-if="$HasBtn('btn.User.update')"
             type="primary"
             size="mini"
             icon="el-icon-edit"
@@ -103,6 +107,7 @@
             @onConfirm="removeUser(row.id)"
           >
             <el-button
+              v-if="$HasBtn('btn.User.remove')"
               slot="reference"
               style="margin-left:10px"
               type="danger"
