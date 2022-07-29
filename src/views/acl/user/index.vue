@@ -1,6 +1,9 @@
 <template>
   <div class="app-container">
-    <el-form inline>
+    <el-form
+      inline
+      @submit.native.prevent
+    >
       <!-- 表单元素 -->
       <el-form-item>
         <el-input
@@ -177,7 +180,10 @@
       :visible.sync="dialogRoleVisible"
       :before-close="resetRoleData"
     >
-      <el-form label-width="80px">
+      <el-form
+        label-width="80px"
+        @submit.native.prevent
+      >
         <el-form-item label="用户名">
           <el-input
             disabled

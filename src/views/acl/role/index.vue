@@ -1,6 +1,9 @@
 <template>
   <div>
-    <el-form inline>
+    <el-form
+      inline
+      @submit.native.prevent
+    >
       <el-form-item>
         <el-input
           v-model="tempSearchObj.roleName"

@@ -3,6 +3,7 @@
     ref="form"
     :model="spuForm"
     label-width="100px"
+    @submit.native.prevent
   >
     <el-form-item label="SPU名称">
       <el-input

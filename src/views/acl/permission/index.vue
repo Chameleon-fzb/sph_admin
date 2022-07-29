@@ -95,6 +95,7 @@
         :model="permission"
         :rules="permissionRules"
         label-width="120px"
+        @submit.native.prevent
       >
         <el-form-item
           v-if="permission.level>2 && !permission.id"

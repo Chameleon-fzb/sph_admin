@@ -76,6 +76,7 @@
           :ref="attrForm"
           :model="attrForm"
           :inline="true"
+          @submit.native.prevent
         >
           <el-form-item
             label="属性名"

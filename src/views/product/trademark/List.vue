@@ -16,6 +16,7 @@
         :model="tmForm"
         style="width=80%"
         :rules="rules"
+        @submit.native.prevent
       >
         <el-form-item
           label="品牌名称"

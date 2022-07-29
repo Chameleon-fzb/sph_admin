@@ -7,6 +7,7 @@
       class="login-form"
       auto-complete="on"
       label-position="left"
+      @submit.native.prevent
     >
       <div class="title-container">
         <h3 class="title">登 录</h3>

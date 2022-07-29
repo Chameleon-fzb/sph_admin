@@ -5,6 +5,7 @@
     label-width="80px"
     :inline="false"
     size="normal"
+    @submit.native.prevent
   >
     <el-form-item label="SPU 名称">
       {{ spu.spuName }}
@@ -42,6 +43,7 @@
       <el-form
         :inline="true"
         label-width="100px"
+        @submit.native.prevent
       >
         <el-form-item
           v-for="skuAttr in skuAttrList"
