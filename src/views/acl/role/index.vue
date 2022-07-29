@@ -84,10 +84,12 @@
             title="分配权限"
             @click="$router.push(`/acl/role/auth/${row.id}?roleName=${row.roleName}`)"
           />
-          <span v-if="$HasBtn('btn.Role.update')">
+          <span
+            v-if="$HasBtn('btn.Role.update')"
+            style="margin:0 10px"
+          >
             <el-button
-              v-if="
-                row.edit"
+              v-if="row.edit"
               size="mini"
               type="primary"
               icon="el-icon-check"
