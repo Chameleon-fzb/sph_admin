@@ -56,6 +56,7 @@ export const constantRoutes = [
     根据用户信息进行注册
   */
 //  异步(权限)路由
+
 export const allAsyncRoutes = [
   //  用户权限管理路由
   {

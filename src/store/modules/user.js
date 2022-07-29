@@ -7,6 +7,7 @@ import {
   anyRoutes
 } from '@/router'
 import router from '@/router'
+import { cloneDeep } from 'lodash'
 const getDefaultState = () => {
   return {
     token: getToken(),
@@ -88,7 +89,11 @@ const actions = {
           if (!data) {
             return reject('验证失败,请重新登录')
           }
-          const asyncRoutes = filterAsyncRoutes(allAsyncRoutes, data.routes)
+          const asyncRoutes = filterAsyncRoutes(
+            // 使用深拷贝不然会改变原来的数据
+            cloneDeep(allAsyncRoutes),
+            data.routes
+          )
           commit('SET_ROUTES', asyncRoutes)
           commit('SET_USER_INFO', data)
 
