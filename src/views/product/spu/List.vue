@@ -42,6 +42,7 @@
           >
             <template slot-scope="{row}">
               <hintBtn
+                v-if="$HasBtn('btn.Spu.addsku')"
                 type="primary"
                 icon="el-icon-plus"
                 title="添加SKU"
@@ -49,6 +50,7 @@
                 @click="toShowSkuForm(row)"
               />
               <hintBtn
+                v-if="$HasBtn('btn.Spu.update')"
                 type="warning"
                 icon="el-icon-edit"
                 title="修改SPU"
@@ -56,6 +58,7 @@
                 @click.native="toShowSpuForm(row)"
               />
               <hintBtn
+                v-if="$HasBtn('btn.Spu.skus')"
                 type="info"
                 icon="el-icon-info"
                 title="查看"
@@ -67,6 +70,7 @@
                 @onConfirm="deleteSpu(row.id)"
               >
                 <hintBtn
+                  v-if="$HasBtn('btn.Spu.delete')"
                   slot="reference"
                   type="danger"
                   icon="el-icon-delete"
@@ -102,25 +106,6 @@
         :visible.sync="isShowSkuForm"
       />
     </el-card>
-    <!--
-      放在 查看按钮下 不能实现,而且每一项都会有
-      对话框,后一个会覆盖前一个,最终只会显示最后一个,并不是我们要的
-       :title="`${row.spuName}sku列表`"
-       只显示一个
-       放在结尾
-       使用标识变量
-      :title="`${dialogTitle}sku列表`"
-      查看时传入 row
-       <hintBtn
-          type="info"
-          icon="el-icon-info"
-          title="查看"
-          size="mini"
-          @click="showSkus(row)"
-        />
-        将 row.spuName 保存到 dialogTitle
-        保证只显示一项
-      -->
     <el-dialog
       :title="`${dialogTitle}sku列表`"
       :visible.sync="dialogTableVisible"
