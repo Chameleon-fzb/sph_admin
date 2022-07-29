@@ -54,23 +54,27 @@
           align="center"
         >
           <template slot-scope="{row}">
+            <span v-if="$HasBtn('btn.Sku.updown')">
+              <hintBtn
+                v-if="row.isSale"
+                type="success"
+                size="mini"
+                title="下架"
+                icon="el-icon-sort-down"
+                @click="pullOffShelves(row)"
+              />
+              <hintBtn
+                v-else
+                type="info"
+                size="mini"
+                title="上架"
+                icon="el-icon-sort-up"
+                @click="putOnShelves(row)"
+              />
+            </span>
+
             <hintBtn
-              v-if="row.isSale"
-              type="success"
-              size="mini"
-              title="下架"
-              icon="el-icon-sort-down"
-              @click="pullOffShelves(row)"
-            />
-            <hintBtn
-              v-else
-              type="info"
-              size="mini"
-              title="上架"
-              icon="el-icon-sort-up"
-              @click="putOnShelves(row)"
-            />
-            <hintBtn
+              v-if="$HasBtn('btn.Sku.update')"
               type="primary"
               size="mini"
               title="修改"
@@ -78,6 +82,7 @@
               @click="updateSku"
             />
             <hintBtn
+              v-if="$HasBtn('btn.Sku.detail')"
               type="info"
               size="mini"
               title="查看"
@@ -89,6 +94,7 @@
               @onConfirm="deleteSku(row.id)"
             >
               <hintBtn
+                v-if="$HasBtn('btn.Sku.remove')"
                 slot="reference"
                 type="danger"
                 size="mini"
