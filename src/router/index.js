@@ -139,21 +139,21 @@ export const allAsyncRoutes = [
   },
   // 测试权限管理路由
   {
-    path: '/text',
+    path: '/test',
     component: Layout, // 首先展示一级路由
-    name: 'Text',
+    name: 'Test',
     meta: { title: '测试管理', icon: 'el-icon-magic-stick' },
     children: [
       {
-        path: 'text1',
-        component: () => import('@/views/text/text1'),
-        name: 'Text1',
+        path: 'test1',
+        component: () => import('@/views/test/test1'),
+        name: 'Test1',
         meta: { title: '测试1管理' }
       },
       {
-        path: 'text2',
-        component: () => import('@/views/text/text2'),
-        name: 'Text2',
+        path: 'test2',
+        component: () => import('@/views/test/test2'),
+        name: 'Test2',
         meta: { title: '测试2管理' }
       }
     ]
