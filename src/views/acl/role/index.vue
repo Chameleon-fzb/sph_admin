@@ -18,10 +18,12 @@
 
     <div style="margin-bottom: 20px">
       <el-button
+        v-if="$HasBtn('btn.Role.add')"
         type="primary"
         @click="addRole"
       >添加</el-button>
       <el-button
+        v-if="$HasBtn('btn.Role.remove')"
         type="danger"
         :disabled="selectedRoles.length === 0"
         @click="removeRoles()"
@@ -75,31 +77,34 @@
       >
         <template slot-scope="{row}">
           <el-button
+            v-if="$HasBtn('btn.Role.assgin')"
             size="mini"
             type="info"
             icon="el-icon-info"
             title="分配权限"
             @click="$router.push(`/acl/role/auth/${row.id}?roleName=${row.roleName}`)"
           />
-
+          <span v-if="$HasBtn('btn.Role.update')">
+            <el-button
+              v-if="
+                row.edit"
+              size="mini"
+              type="primary"
+              icon="el-icon-check"
+              title="确定"
+              @click="updateRole(row)"
+            />
+            <el-button
+              v-if="!row.edit"
+              size="mini"
+              type="primary"
+              icon="el-icon-edit"
+              title="修改角色"
+              @click="row.edit= true"
+            />
+          </span>
           <el-button
-            v-if="row.edit"
-            size="mini"
-            type="primary"
-            icon="el-icon-check"
-            title="确定"
-            @click="updateRole(row)"
-          />
-          <el-button
-            v-if="!row.edit"
-            size="mini"
-            type="primary"
-            icon="el-icon-edit"
-            title="修改角色"
-            @click="row.edit= true"
-          />
-
-          <el-button
+            v-if="$HasBtn('btn.Role.remove')"
             size="mini"
             type="danger"
             icon="el-icon-delete"

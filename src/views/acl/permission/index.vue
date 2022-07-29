@@ -31,7 +31,7 @@
       border
       style="margin-bottom: 20px;"
       :data="menuPermissionList"
-      :expand-row-keys="expandKeys"
+      :expand-row-keys="$HasBtn('btn') ? expandKeys : []"
       row-key="id"
     >
       <el-table-column
@@ -52,6 +52,7 @@
         <template slot-scope="{row}">
 
           <el-button
+            v-if="$HasBtn('btn.Permission.add')"
             :disabled="row.level===4"
             type="primary"
             icon="el-icon-plus"
@@ -61,6 +62,7 @@
           />
 
           <el-button
+            v-if="$HasBtn('btn.Permission.update')"
             type="primary"
             icon="el-icon-edit"
             size="mini"
@@ -70,6 +72,7 @@
           />
 
           <el-button
+            v-if="$HasBtn('btn.Permission.remove')"
             :disabled="row.level===1"
             type="danger"
             icon="el-icon-delete"
